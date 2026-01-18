@@ -1,0 +1,35 @@
+file(
+        GLOB Sources
+        "*.h"
+        "*.cpp"
+        "Tools/*.h"
+        "Tools/*.cpp"
+        "Window/*.h"
+        "Window/*.cpp"
+        "BaseTypes/*.h"
+        "BaseTypes/*.cpp"
+        "RawGraphics/*.h"
+        "RawGraphics/*.cpp"
+        "Graphics/*.h"
+        "Graphics/*.cpp"
+        "Graphics/Sprite/*.h"
+        "Graphics/Sprite/*.cpp"
+        "Graphics/Renderer/*.cpp"
+        "Graphics/Renderer/*.cpp"
+)
+
+add_library(
+        GraphicsLib STATIC
+        ${Sources})
+
+target_include_directories(
+        GraphicsLib PUBLIC
+        ../)
+
+target_link_libraries(
+        GraphicsLib PUBLIC
+        glad
+        glm
+        glfw
+        spdlog::spdlog
+)
