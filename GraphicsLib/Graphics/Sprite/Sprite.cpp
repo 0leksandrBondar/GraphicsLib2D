@@ -5,37 +5,21 @@
 namespace gfx2d
 {
 
-    Sprite::Sprite() { setupBuffers(); }
-
-    Sprite::Sprite(Shader* shader, Texture2D* texture)
+    Sprite::Sprite(Shader* shader, const std::filesystem::path& texturePath)
     {
         _shader = shader;
-        _texture = texture;
+        _texture = Texture2D::create(texturePath);
         setupBuffers();
     }
 
-    Sprite::Sprite(Shader* shader, Texture2D* texture, size_t width, size_t height)
+    SpritePtr Sprite::create(Shader* shader, const std::filesystem::path& texturePath)
     {
-        _shader = shader;
-        _texture = texture;
-        setupBuffers();
-    }
-
-    SpritePtr Sprite::create() { return std::shared_ptr<Sprite>(new Sprite()); }
-    SpritePtr Sprite::create(Shader* shader, Texture2D* texture)
-    {
-        return std::shared_ptr<Sprite>(new Sprite(shader, texture));
-    }
-    SpritePtr Sprite::create(Shader* shader, Texture2D* texture, size_t width, size_t height)
-    {
-        return std::shared_ptr<Sprite>(new Sprite(shader, texture, width, height));
+        return std::shared_ptr<Sprite>(new Sprite(shader, texturePath));
     }
 
     void Sprite::setColor(glm::vec4 color) {}
 
     void Sprite::setShader(Shader* shader) { _shader = shader; }
-
-    void Sprite::setTexture(Texture2D* texture) { _texture = texture; }
 
     void Sprite::setupBuffers()
     {

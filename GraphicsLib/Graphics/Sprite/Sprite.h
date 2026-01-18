@@ -15,19 +15,14 @@ namespace gfx2d
 
     class Sprite final : public GraphicsItem
     {
-        Sprite();
-        Sprite(Shader* shader, Texture2D* texture);
-        Sprite(Shader* shader, Texture2D* texture, size_t width, size_t height);
+        Sprite(Shader* shader, const std::filesystem::path& texturePath);
 
     public:
-        static SpritePtr create();
-        static SpritePtr create(Shader* shader, Texture2D* texture);
-        static SpritePtr create(Shader* shader, Texture2D* texture, size_t width, size_t height);
+        static SpritePtr create(Shader* shader, const std::filesystem::path& texturePath);
 
     public:
         void setColor(glm::vec4 color);
         void setShader(Shader* shader);
-        void setTexture(Texture2D* texture);
 
     private:
         void setupBuffers();

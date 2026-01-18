@@ -24,13 +24,8 @@ public:
 
         _window = gfx2d::Window::create(1000, 800, "gfx2d");
         _shader = gfx2d::Shader::create(vertShaderPath, fragShaderPath);
-        auto Texture = gfx2d::Texture2D::create(texturePath).get();
-        auto Texture2 = new gfx2d::Texture2D(texturePath);
-        _sprite = gfx2d::Sprite::create();
-        _sprite->setTexture(Texture2);
-        _sprite->setShader(_shader.get());
-
-        _sprite->setPosition({ 100, 100 });
+        _sprite = gfx2d::Sprite::create(_shader.get(), texturePath);
+        _sprite->setPosition({ 350, 270 });
         _sprite->setSize(200, 200);
         _renderer = gfx2d::Renderer::create(_window.get());
     }
