@@ -10,6 +10,8 @@ file(
         "BaseTypes/*.cpp"
         "RawGraphics/*.h"
         "RawGraphics/*.cpp"
+        "EventSystem/*.h"
+        "EventSystem/*.cpp"
         "Graphics/*.h"
         "Graphics/*.cpp"
         "Graphics/Sprite/*.h"
