@@ -5,17 +5,17 @@
 
 namespace gfx2d
 {
+    class Camera;
     class GraphicsItem;
 
     using RendererPtr = std::unique_ptr<class Renderer>;
 
     class Renderer final
     {
-        Renderer() = default;
-        explicit Renderer(Window* window);
-
     public:
-        static RendererPtr create(Window* window);
+        Renderer() = default;
+        static RendererPtr create(Window* window, Camera* camera = nullptr);
+        explicit Renderer(Window* window, Camera* camera);
 
         void render(GraphicsItem* item) const;
 
@@ -24,6 +24,7 @@ namespace gfx2d
 
     private:
         Window* _window{ nullptr };
+        Camera* _camera{ nullptr };
         glm::mat4 _projectionMatrix{ 1.f };
     };
 } // namespace gfx2d

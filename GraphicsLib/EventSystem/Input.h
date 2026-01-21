@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GraphicsLib/EventSystem/ButtonDefinisions.h"
+
 #include "glm/vec2.hpp"
 
 #include <array>

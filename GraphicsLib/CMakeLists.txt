@@ -6,6 +6,8 @@ file(
         "Tools/*.cpp"
         "Window/*.h"
         "Window/*.cpp"
+        "Camera/*.h"
+        "Camera/*.cpp"
         "BaseTypes/*.h"
         "BaseTypes/*.cpp"
         "RawGraphics/*.h"
