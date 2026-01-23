@@ -28,15 +28,16 @@ public:
     {
         const auto vertShaderPath = "Assets/Shaders/Vertex.vert";
         const auto fragShaderPath = "Assets/Shaders/Fragment.frag";
-        const auto texturePath = "Assets/Textures/DefaultTexture.png";
+        // const auto texturePath = "Assets/Textures/DefaultTexture.png";
+        const auto texturePath = "Assets/Textures/464.png";
 
-        // _window = gfx2d::Window::create(1000, 800, "gfx2d");
+        gfx2d::TextureAtlas atlas(gfx2d::Texture2D::create(texturePath));
+        atlas.addRegion("yellow", 20, 20, 64, 64);
+
         _shader = gfx2d::Shader::create(vertShaderPath, fragShaderPath);
-        _sprite = gfx2d::Sprite::create(_shader.get(), texturePath);
+        _sprite = gfx2d::Sprite::create(_shader.get(), &atlas.get("yellow"));
         _sprite->setPosition({ 350, 270 });
         _sprite->setSize(200, 200);
-        // _camera = gfx2d::Camera::create(1000, 800);
-        //_renderer = gfx2d::Renderer::create(_window.get(), _camera.get());
     }
 
 private:
