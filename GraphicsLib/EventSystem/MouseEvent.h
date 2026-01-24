@@ -33,6 +33,22 @@ namespace gfx2d
         int _button;
     };
 
+    class MouseScrolledEvent final : public Event
+    {
+    public:
+        MouseScrolledEvent(float xOffset, float yOffset) : _xOffset(xOffset), _yOffset(yOffset) {}
+
+        [[nodiscard]] float getXOffset() const { return _xOffset; }
+        [[nodiscard]] float getYOffset() const { return _yOffset; }
+
+        EVENT_CLASS_TYPE(MouseScrolled)
+        EVENT_CLASS_CATEGORY(Input | Mouse)
+
+    private:
+        float _xOffset;
+        float _yOffset;
+    };
+
     class MouseButtonPressedEvent final : public MouseButtonEvent
     {
     public:

@@ -24,4 +24,5 @@ namespace gfx2d
     {
         return _regions.at(name);
     }
+
 } // namespace gfx2d

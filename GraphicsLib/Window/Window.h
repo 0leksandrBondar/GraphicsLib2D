@@ -27,6 +27,12 @@ namespace gfx2d
     private:
         Window(unsigned int width, unsigned int height, const char* title);
 
+        static void onMouseMove(GLFWwindow* window, double x, double y);
+        static void onMouseScroll(GLFWwindow* window, double x, double y);
+        static void onMouseButton(GLFWwindow* window, int button, int action, int mods);
+        static void onKeyboardButton(GLFWwindow* window, int key, int scancode, int action,
+                                     int mods);
+
     private:
         GLFWwindow* _window{ nullptr };
         OnFrameCallback _onFrameCallback{ nullptr };

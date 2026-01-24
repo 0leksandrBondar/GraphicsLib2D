@@ -32,12 +32,12 @@ public:
         const auto texturePath = "Assets/Textures/464.png";
 
         gfx2d::TextureAtlas atlas(gfx2d::Texture2D::create(texturePath));
-        atlas.addRegion("yellow", 20, 20, 64, 64);
+        atlas.addRegion("yellow", 30, 30, 256, 256);
 
         _shader = gfx2d::Shader::create(vertShaderPath, fragShaderPath);
         _sprite = gfx2d::Sprite::create(_shader.get(), &atlas.get("yellow"));
         _sprite->setPosition({ 350, 270 });
-        _sprite->setSize(200, 200);
+        _sprite->setSize(256, 256);
     }
 
 private:
@@ -58,6 +58,16 @@ private:
     void handleCameraKeyEvent(const float deltaTime) const
     {
         constexpr int speed = 350;
+
+        auto scroll = gfx2d::Input::consumeMouseScroll();
+
+        if (scroll.y != 0.0f)
+        {
+            float zoom = _camera->getZoom();
+            zoom *= (1.0f + scroll.y * 0.1f);
+            zoom = std::clamp(zoom, 0.1f, 5.0f);
+            _camera->setZoom(zoom);
+        }
 
         if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::W))
             _camera->move({ 0, -speed * deltaTime });

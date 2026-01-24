@@ -9,12 +9,24 @@ namespace gfx2d
     std::array<bool, 512> Input::_keys{};
     std::array<bool, 8> Input::_mouseButtons{};
     glm::vec2 Input::_mousePos{};
+    glm::vec2 Input::_mouseScroll{ 0.0f, 0.0f };
 
     bool Input::isKeyPressed(const int key) { return _keys[key]; }
 
     bool Input::isMouseButtonPressed(const int button) { return _mouseButtons[button]; }
 
     glm::vec2 Input::getMousePosition() { return _mousePos; }
+
+   // glm::vec2 Input::getMouseScroll() { return _mouseScroll; }
+
+
+    glm::vec2 Input::consumeMouseScroll()
+    {
+        glm::vec2 scroll = _mouseScroll;
+        _mouseScroll = { 0.0f, 0.0f };
+        return scroll;
+    }
+
 
     void Input::onEvent(Event& e)
     {
@@ -52,6 +64,13 @@ namespace gfx2d
             [](const MouseButtonReleasedEvent& e)
             {
                 _mouseButtons[e.getButton()] = false;
+                return false;
+            });
+
+        d.dispatch<MouseScrolledEvent>(
+            [](const MouseScrolledEvent& e)
+            {
+                _mouseScroll = { e.getXOffset(), e.getYOffset() };
                 return false;
             });
     }
