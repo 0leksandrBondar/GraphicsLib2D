@@ -2,7 +2,6 @@
 
 #include "GraphicsLib/Graphics/GraphicsItem.h"
 #include "GraphicsLib/Graphics/TextureAtlas/TextureAtlas.h"
-#include "glm/vec4.hpp"
 
 #include <memory>
 
@@ -16,15 +15,15 @@ namespace gfx2d
     class Sprite final : public GraphicsItem
     {
     public:
-        Sprite(Shader* shader, const std::filesystem::path& texturePath);
-        Sprite(Shader* shader, const TextureRegion* textureRegion);
+        Sprite(ShaderPtr shader, const std::filesystem::path& texturePath);
+        Sprite(ShaderPtr shader, const TextureRegion* textureRegion);
 
-        static SpritePtr create(Shader* shader, const std::filesystem::path& texturePath);
-        static SpritePtr create(Shader* shader, const TextureRegion* textureRegion);
+        static SpritePtr create(ShaderPtr shader, const std::filesystem::path& texturePath);
+        static SpritePtr create(ShaderPtr shader, const TextureRegion* textureRegion);
 
     public:
         void setColor(glm::vec4 color);
-        void setShader(Shader* shader);
+        void setShader(ShaderPtr shader);
 
     private:
         void buildMesh(float u1, float v1, float u2, float v2);

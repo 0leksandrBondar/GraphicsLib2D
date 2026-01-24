@@ -5,6 +5,8 @@
 #include "GraphicsLib/OpenGL.h"
 #include "GraphicsLib/Tools/Timer.h"
 
+#include <GraphicsLib/EventSystem/Input.h>
+
 namespace gfx2d
 {
 
@@ -49,38 +51,38 @@ namespace gfx2d
     void Window::onMouseMove(GLFWwindow* window, double x, double y)
     {
         auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        if (!window || !self->_onEventCallback)
+        if (!window)
             return;
 
         MouseMovedEvent e((float)x, (float)y);
-        self->_onEventCallback(e);
+        self->dispatchEvent(e);
     }
 
     void Window::onMouseScroll(GLFWwindow* window, double x, double y)
     {
         auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        if (!window || !self->_onEventCallback)
+        if (!window)
             return;
 
         MouseScrolledEvent e(static_cast<float>(x), static_cast<float>(y));
-        self->_onEventCallback(e);
+        self->dispatchEvent(e);
     }
 
     void Window::onMouseButton(GLFWwindow* window, int button, int action, int mods)
     {
         auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        if (!window || !self->_onEventCallback)
+        if (!window)
             return;
 
         if (action == GLFW_PRESS)
         {
             MouseButtonPressedEvent e(button);
-            self->_onEventCallback(e);
+            self->dispatchEvent(e);
         }
         else if (action == GLFW_RELEASE)
         {
             MouseButtonReleasedEvent e(button);
-            self->_onEventCallback(e);
+            self->dispatchEvent(e);
         }
     }
 
@@ -88,7 +90,7 @@ namespace gfx2d
     {
         auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
 
-        if (!window || !self->_onEventCallback)
+        if (!window)
             return;
 
         switch (action)
@@ -96,24 +98,26 @@ namespace gfx2d
         case GLFW_PRESS:
         {
             KeyPressedEvent e(key, false);
-            self->_onEventCallback(e);
+            self->dispatchEvent(e);
             break;
         }
         case GLFW_RELEASE:
         {
             KeyReleasedEvent e(key);
-            self->_onEventCallback(e);
+            self->dispatchEvent(e);
             break;
         }
         case GLFW_REPEAT:
         {
             KeyPressedEvent e(key, true);
-            self->_onEventCallback(e);
+            self->dispatchEvent(e);
             break;
         }
         default:;
         }
     }
+
+    void Window::dispatchEvent(Event& e) const { Input::onEvent(e); }
 
     WindowPtr Window::create(const unsigned int width, const unsigned int height, const char* title)
     {

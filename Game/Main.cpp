@@ -13,52 +13,26 @@ public:
     Game()
     {
         initializeAllMembers();
-        initEventSystem();
         _window->setOnFrameCallback([this](const float deltaTime) { onFrame(deltaTime); });
     }
 
     void run() const { _window->runMainLoop(); }
 
-    void initEventSystem() const
-    {
-        _window->setOnEventCallback([](gfx2d::Event& e) { gfx2d::Input::onEvent(e); });
-    }
-
     void initializeAllMembers()
     {
-        const auto vertShaderPath = "Assets/Shaders/Vertex.vert";
-        const auto fragShaderPath = "Assets/Shaders/Fragment.frag";
-        // const auto texturePath = "Assets/Textures/DefaultTexture.png";
-        const auto texturePath = "Assets/Textures/464.png";
-
-        gfx2d::TextureAtlas atlas(gfx2d::Texture2D::create(texturePath));
+        gfx2d::TextureAtlas atlas(gfx2d::Texture2D::create("Assets/Textures/464.png"));
         atlas.addRegion("yellow", 30, 30, 256, 256);
 
-        _shader = gfx2d::Shader::create(vertShaderPath, fragShaderPath);
-        _sprite = gfx2d::Sprite::create(_shader.get(), &atlas.get("yellow"));
+        _shader
+            = gfx2d::Shader::create("Assets/Shaders/Vertex.vert", "Assets/Shaders/Fragment.frag");
+        _sprite = gfx2d::Sprite::create(_shader, &atlas.get("yellow"));
         _sprite->setPosition({ 350, 270 });
         _sprite->setSize(256, 256);
     }
 
 private:
-    void handlePlayerKeyEvent(const float deltaTime) const
+    void handleCameraKeyEvent(const float deltaTime, const int speed) const
     {
-        constexpr int speed = 350;
-
-        if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::Up))
-            _sprite->move(0, -speed * deltaTime);
-        if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::Left))
-            _sprite->move(-speed * deltaTime, 0);
-        if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::Down))
-            _sprite->move(0, speed * deltaTime);
-        if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::Right))
-            _sprite->move(speed * deltaTime, 0);
-    }
-
-    void handleCameraKeyEvent(const float deltaTime) const
-    {
-        constexpr int speed = 350;
-
         auto scroll = gfx2d::Input::consumeMouseScroll();
 
         if (scroll.y != 0.0f)
@@ -82,9 +56,7 @@ private:
 private:
     void onFrame(const float deltaTime) const
     {
-        handlePlayerKeyEvent(deltaTime);
-        handleCameraKeyEvent(deltaTime);
-
+        handleCameraKeyEvent(deltaTime, 350);
         _renderer->render(_sprite.get());
     }
 

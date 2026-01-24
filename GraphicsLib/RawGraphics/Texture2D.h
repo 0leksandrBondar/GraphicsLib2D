@@ -11,15 +11,14 @@ namespace gfx2d
     using TexturePtr = std::shared_ptr<class Texture2D>;
     class Texture2D final : public NonCopyableButMovable
     {
+    public:
         Texture2D() = default;
 
         Texture2D(GLuint width, GLuint height, const unsigned char* data, size_t channels = 4,
                   GLenum filter = GL_LINEAR, GLenum wrapMode = GL_CLAMP_TO_EDGE);
 
-    public:
         explicit Texture2D(const std::filesystem::path& path);
 
-    public:
         static TexturePtr create(const std::filesystem::path& path);
 
         ~Texture2D() { glDeleteTextures(1, &_id); }

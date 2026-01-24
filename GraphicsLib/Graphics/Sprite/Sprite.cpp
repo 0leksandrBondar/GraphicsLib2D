@@ -5,32 +5,32 @@
 namespace gfx2d
 {
 
-    Sprite::Sprite(Shader* shader, const std::filesystem::path& texturePath)
+    Sprite::Sprite(ShaderPtr shader, const std::filesystem::path& texturePath)
     {
         _shader = shader;
         _texture = Texture2D::create(texturePath);
         setupBuffers();
     }
 
-    Sprite::Sprite(Shader* shader, const TextureRegion* textureRegion)
+    Sprite::Sprite(ShaderPtr shader, const TextureRegion* textureRegion)
     {
         _shader = shader;
         _texture = textureRegion->texture;
         buildMesh(textureRegion->u1, textureRegion->v1, textureRegion->u2, textureRegion->v2);
     }
 
-    SpritePtr Sprite::create(Shader* shader, const std::filesystem::path& texturePath)
+    SpritePtr Sprite::create(ShaderPtr shader, const std::filesystem::path& texturePath)
     {
         return std::make_shared<Sprite>(shader, texturePath);
     }
-    SpritePtr Sprite::create(Shader* shader, const TextureRegion* textureRegion)
+    SpritePtr Sprite::create(ShaderPtr shader, const TextureRegion* textureRegion)
     {
         return std::make_shared<Sprite>(shader, textureRegion);
     }
 
     void Sprite::setColor(glm::vec4 color) {}
 
-    void Sprite::setShader(Shader* shader) { _shader = shader; }
+    void Sprite::setShader(ShaderPtr shader) { _shader = shader; }
 
     void Sprite::buildMesh(const float u1, const float v1, const float u2, const float v2)
     {

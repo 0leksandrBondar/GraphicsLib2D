@@ -8,7 +8,6 @@ namespace gfx2d
 {
 
     using WindowPtr = std::unique_ptr<class Window>;
-    using OnEventCallback = std::function<void(Event&)>;
     using OnFrameCallback = std::function<void(float deltaTime)>;
 
     class Window final
@@ -20,7 +19,6 @@ namespace gfx2d
         void runMainLoop() const;
 
         void setOnFrameCallback(const OnFrameCallback& callback) { _onFrameCallback = callback; }
-        void setOnEventCallback(const OnEventCallback& cb) { _onEventCallback = cb; }
 
         [[nodiscard]] glm::vec2 getSize() const { return _windowSize; }
 
@@ -33,10 +31,11 @@ namespace gfx2d
         static void onKeyboardButton(GLFWwindow* window, int key, int scancode, int action,
                                      int mods);
 
+        void dispatchEvent(Event& e) const;
+
     private:
         GLFWwindow* _window{ nullptr };
         OnFrameCallback _onFrameCallback{ nullptr };
-        OnEventCallback _onEventCallback{ nullptr };
 
         glm::vec2 _windowSize{ 0 };
     };

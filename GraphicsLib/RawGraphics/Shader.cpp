@@ -21,7 +21,7 @@ namespace gfx2d
 
     ShaderPtr Shader::create(const std::string& vertexShader, const std::string& fragmentShader)
     {
-        return std::unique_ptr<Shader>(new Shader(vertexShader, fragmentShader));
+        return std::shared_ptr<Shader>(new Shader(vertexShader, fragmentShader));
     }
 
     Shader::~Shader() { glDeleteProgram(_id); }

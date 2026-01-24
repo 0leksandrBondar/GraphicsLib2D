@@ -9,7 +9,7 @@
 namespace gfx2d
 {
 
-    using ShaderPtr = std::unique_ptr<class Shader>;
+    using ShaderPtr = std::shared_ptr<class Shader>;
 
     class Shader final : public NonCopyableButMovable
     {

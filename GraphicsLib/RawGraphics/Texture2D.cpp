@@ -15,7 +15,7 @@ namespace gfx2d
 
     TexturePtr Texture2D::create(const std::filesystem::path& path)
     {
-        return std::shared_ptr<Texture2D>(new Texture2D(path));
+        return std::make_shared<Texture2D>(path);
     }
 
     Texture2D::Texture2D(const std::filesystem::path& path) { loadTexture(path); }
