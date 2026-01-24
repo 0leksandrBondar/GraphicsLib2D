@@ -13,18 +13,17 @@ namespace gfx2d
     {
     public:
         Texture2D() = default;
-
+        explicit Texture2D(const std::filesystem::path& path);
         Texture2D(GLuint width, GLuint height, const unsigned char* data, size_t channels = 4,
                   GLenum filter = GL_LINEAR, GLenum wrapMode = GL_CLAMP_TO_EDGE);
 
-        explicit Texture2D(const std::filesystem::path& path);
-
-        static TexturePtr create(const std::filesystem::path& path);
+        Texture2D& operator=(Texture2D&& other) noexcept;
+        Texture2D(Texture2D&& other) noexcept { *this = std::move(other); }
 
         ~Texture2D() { glDeleteTextures(1, &_id); }
 
-        Texture2D(Texture2D&& other) noexcept { *this = std::move(other); }
-        Texture2D& operator=(Texture2D&& other) noexcept;
+    public:
+        static TexturePtr create(const std::filesystem::path& path);
 
         void setSmooth(bool smooth);
 

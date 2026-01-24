@@ -25,9 +25,15 @@ public:
 
         _shader
             = gfx2d::Shader::create("Assets/Shaders/Vertex.vert", "Assets/Shaders/Fragment.frag");
-        _sprite = gfx2d::Sprite::create(_shader, &atlas.get("yellow"));
-        _sprite->setPosition({ 350, 270 });
-        _sprite->setSize(256, 256);
+
+        _colorSprite = gfx2d::Sprite::create(_shader);
+        _textureSprite = gfx2d::Sprite::create(_shader, &atlas.get("yellow"));
+
+        _colorSprite->setColor({ 124, 255, 43, 0 });
+        _colorSprite->setSize(256, 256);
+
+        _textureSprite->setPosition({ 350, 270 });
+        _textureSprite->setSize(256, 256);
     }
 
 private:
@@ -57,7 +63,8 @@ private:
     void onFrame(const float deltaTime) const
     {
         handleCameraKeyEvent(deltaTime, 350);
-        _renderer->render(_sprite.get());
+        _renderer->render(_textureSprite.get());
+        _renderer->render(_colorSprite.get());
     }
 
     gfx2d::WindowPtr _window = gfx2d::Window::create(1000, 800, "gfx2d");
@@ -65,7 +72,8 @@ private:
     gfx2d::RendererPtr _renderer = gfx2d::Renderer::create(_window.get(), _camera.get());
 
     gfx2d::ShaderPtr _shader{ nullptr };
-    gfx2d::SpritePtr _sprite{ nullptr };
+    gfx2d::SpritePtr _colorSprite{ nullptr };
+    gfx2d::SpritePtr _textureSprite{ nullptr };
 };
 
 int main()

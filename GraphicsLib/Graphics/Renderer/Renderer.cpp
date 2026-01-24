@@ -28,8 +28,7 @@ namespace gfx2d
     void Renderer::render(GraphicsItem* item) const
     {
         updateMatrices(item);
-        // color not implemented yet
-        // item->getShader()->setVector4("color", item->getColor());
+        item->getShader()->setVector4("spriteColor", item->getColor());
 
         const auto hasTexture = item->getTexture() != nullptr;
 
