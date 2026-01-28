@@ -20,7 +20,7 @@ namespace gfx2d
         setupBuffers();
     }
 
-    Sprite::Sprite(ShaderPtr shader, const TextureRegion* textureRegion)
+    Sprite::Sprite(const ShaderPtr& shader, const TextureRegion* textureRegion)
     {
         _shader = shader;
         _texture = textureRegion->texture;
@@ -35,13 +35,6 @@ namespace gfx2d
     {
         return std::make_shared<Sprite>(shader, textureRegion);
     }
-
-    void Sprite::setColor(glm::vec4 color)
-    {
-        _color = { color.x / 255, color.y / 255, color.z / 255, color.w };
-    }
-
-    void Sprite::setShader(ShaderPtr shader) { _shader = shader; }
 
     void Sprite::buildMesh(const float u1, const float v1, const float u2, const float v2)
     {

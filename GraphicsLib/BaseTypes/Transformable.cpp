@@ -44,6 +44,13 @@ namespace gfx2d
         _needsUpdate = true;
     }
 
+    glm::vec2 Transformable::getGlobalCenter() const noexcept
+    {
+        return _position + (_size * _scale) * 0.5f;
+    }
+
+    glm::vec2 Transformable::getLocalCenter() const noexcept { return (_size * _scale) * 0.5f; }
+
     const glm::mat4& Transformable::getTransformMatrix()
     {
         if (_needsUpdate)

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GraphicsLib/RawGraphics/Shader.h"
 #include "GraphicsLib/Window/Window.h"
 #include "glm/mat4x4.hpp"
 
@@ -17,7 +18,7 @@ namespace gfx2d
         static RendererPtr create(Window* window, Camera* camera = nullptr);
         explicit Renderer(Window* window, Camera* camera);
 
-        void render(GraphicsItem* item) const;
+        void render(GraphicsItem* item);
 
     private:
         void updateMatrices(GraphicsItem* item) const;
@@ -25,6 +26,7 @@ namespace gfx2d
     private:
         Window* _window{ nullptr };
         Camera* _camera{ nullptr };
+        ShaderPtr _shader{ nullptr };
         glm::mat4 _projectionMatrix{ 1.f };
     };
 } // namespace gfx2d

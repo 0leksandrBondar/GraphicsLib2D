@@ -39,6 +39,10 @@ namespace gfx2d
         glfwMakeContextCurrent(_window);
         glfwSetWindowUserPointer(_window, this);
 
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendEquation(GL_FUNC_ADD);
+
         // KEYBOARD
         glfwSetKeyCallback(_window, onKeyboardButton);
 
@@ -48,48 +52,44 @@ namespace gfx2d
         glfwSetMouseButtonCallback(_window, onMouseButton);
     }
 
-    void Window::onMouseMove(GLFWwindow* window, double x, double y)
+    void Window::onMouseMove(GLFWwindow* window, const double x, const double y)
     {
-        auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
         if (!window)
             return;
 
-        MouseMovedEvent e((float)x, (float)y);
-        self->dispatchEvent(e);
+        MouseMovedEvent e(static_cast<float>(x), static_cast<float>(y));
+        Input::onEvent(e);
     }
 
-    void Window::onMouseScroll(GLFWwindow* window, double x, double y)
+    void Window::onMouseScroll(GLFWwindow* window, const double x, const double y)
     {
-        auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
         if (!window)
             return;
 
         MouseScrolledEvent e(static_cast<float>(x), static_cast<float>(y));
-        self->dispatchEvent(e);
+        Input::onEvent(e);
     }
 
-    void Window::onMouseButton(GLFWwindow* window, int button, int action, int mods)
+    void Window::onMouseButton(GLFWwindow* window, const int button, const int action, int mods)
     {
-        auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
         if (!window)
             return;
 
         if (action == GLFW_PRESS)
         {
             MouseButtonPressedEvent e(button);
-            self->dispatchEvent(e);
+            Input::onEvent(e);
         }
         else if (action == GLFW_RELEASE)
         {
             MouseButtonReleasedEvent e(button);
-            self->dispatchEvent(e);
+            Input::onEvent(e);
         }
     }
 
-    void Window::onKeyboardButton(GLFWwindow* window, int key, int scancode, int action, int mods)
+    void Window::onKeyboardButton(GLFWwindow* window, const int key, int scancode, const int action,
+                                  int mods)
     {
-        auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-
         if (!window)
             return;
 
@@ -98,26 +98,24 @@ namespace gfx2d
         case GLFW_PRESS:
         {
             KeyPressedEvent e(key, false);
-            self->dispatchEvent(e);
+            Input::onEvent(e);
             break;
         }
         case GLFW_RELEASE:
         {
             KeyReleasedEvent e(key);
-            self->dispatchEvent(e);
+            Input::onEvent(e);
             break;
         }
         case GLFW_REPEAT:
         {
             KeyPressedEvent e(key, true);
-            self->dispatchEvent(e);
+            Input::onEvent(e);
             break;
         }
         default:;
         }
     }
-
-    void Window::dispatchEvent(Event& e) const { Input::onEvent(e); }
 
     WindowPtr Window::create(const unsigned int width, const unsigned int height, const char* title)
     {

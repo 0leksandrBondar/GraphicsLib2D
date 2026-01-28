@@ -21,6 +21,7 @@ namespace gfx2d
         void setOnFrameCallback(const OnFrameCallback& callback) { _onFrameCallback = callback; }
 
         [[nodiscard]] glm::vec2 getSize() const { return _windowSize; }
+        // RendererPtr& getRenderer() { return _renderer; }
 
     private:
         Window(unsigned int width, unsigned int height, const char* title);
@@ -31,12 +32,12 @@ namespace gfx2d
         static void onKeyboardButton(GLFWwindow* window, int key, int scancode, int action,
                                      int mods);
 
-        void dispatchEvent(Event& e) const;
-
     private:
         GLFWwindow* _window{ nullptr };
         OnFrameCallback _onFrameCallback{ nullptr };
 
         glm::vec2 _windowSize{ 0 };
+
+        // RendererPtr _renderer{ nullptr };
     };
 } // namespace gfx2d

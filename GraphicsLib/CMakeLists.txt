@@ -22,6 +22,8 @@ file(
         "Graphics/TextureAtlas/*.cpp"
         "Graphics/Renderer/*.cpp"
         "Graphics/Renderer/*.cpp"
+        "Resource/*.h"
+        "Resource/*.cpp"
 )
 
 add_library(

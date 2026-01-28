@@ -3,6 +3,7 @@
 #include "GraphicsLib/Camera/Camera.h"
 #include "GraphicsLib/Graphics/GraphicsItem.h"
 #include "GraphicsLib/RawGraphics/Texture2D.h"
+#include "GraphicsLib/Resource/ResourceManager.h"
 #include "glm/ext/matrix_clip_space.hpp"
 
 #include <iostream>
@@ -25,14 +26,19 @@ namespace gfx2d
         return std::make_unique<Renderer>(window, camera);
     }
 
-    void Renderer::render(GraphicsItem* item) const
+    void Renderer::render(GraphicsItem* item)
     {
+        if (item->getShader() == nullptr)
+            _shader = ResourceManager::getInstance()->getShader("defaultShader");
+        else
+            _shader = item->getShader();
+
         updateMatrices(item);
-        item->getShader()->setVector4("spriteColor", item->getColor());
+        _shader->setVector4("spriteColor", item->getColor());
 
         const auto hasTexture = item->getTexture() != nullptr;
 
-        item->getShader()->setBool("useTexture", hasTexture);
+        _shader->setBool("useTexture", hasTexture);
 
         if (hasTexture)
             item->getTexture()->bind();
@@ -41,7 +47,6 @@ namespace gfx2d
         {
             mesh.bindVertexArrayObject();
             glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, nullptr);
-            GL_CHECK();
         }
 
         if (hasTexture)
@@ -50,16 +55,16 @@ namespace gfx2d
 
     void Renderer::updateMatrices(GraphicsItem* item) const
     {
-        if (item->getShader() != nullptr)
+        if (_shader != nullptr)
         {
-            item->getShader()->use();
-            item->getShader()->setMatrix4("modelMat", item->getTransformMatrix());
-            item->getShader()->setMatrix4("projectionMat", _projectionMatrix);
+            _shader->use();
+            _shader->setMatrix4("modelMat", item->getTransformMatrix());
+            _shader->setMatrix4("projectionMat", _projectionMatrix);
 
             if (_camera != nullptr)
-                item->getShader()->setMatrix4("viewMat", _camera->getViewMatrix());
+                _shader->setMatrix4("viewMat", _camera->getViewMatrix());
             else
-                item->getShader()->setMatrix4("viewMat", glm::mat4(1.0f));
+                _shader->setMatrix4("viewMat", glm::mat4(1.0f));
         }
     }
 

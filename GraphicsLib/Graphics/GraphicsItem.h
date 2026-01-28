@@ -15,8 +15,15 @@ namespace gfx2d
     {
     public:
         GraphicsItem() = default;
+
+        void setColor(glm::vec4 color)
+        {
+            _color = { color.x / 255, color.y / 255, color.z / 255, color.w };
+        }
+        void setShader(const ShaderPtr& shader) { _shader = shader; }
+
         [[nodiscard]] glm::vec4 const& getColor() const { return _color; }
-        [[nodiscard]] ShaderPtr const getShader() const { return _shader; }
+        [[nodiscard]] ShaderPtr getShader() const { return _shader; }
         [[nodiscard]] Texture2D const* getTexture() const { return _texture.get(); }
         [[nodiscard]] std::vector<Mesh> const& getMeshes() const { return _meshes; }
 

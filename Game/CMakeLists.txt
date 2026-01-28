@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30..)
 
-add_executable(${PROJECT_NAME} Main.cpp)
+add_executable(${PROJECT_NAME} Main.cpp Game.cpp Game.h Player.h Player.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE GraphicsLib)
 

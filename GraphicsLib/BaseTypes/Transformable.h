@@ -25,6 +25,11 @@ namespace gfx2d
 
         void zoom(float scaleFactor, glm::vec2 targetPos);
 
+        [[nodiscard]] glm::vec2 getGlobalCenter() const noexcept;
+        [[nodiscard]] glm::vec2 getLocalCenter() const noexcept;
+
+        [[nodiscard]] int getWidth() const noexcept { return _size.x; }
+        [[nodiscard]] int getHeight() const noexcept { return _size.y; }
         [[nodiscard]] glm::vec2 getSize() const noexcept { return _size; }
         [[nodiscard]] glm::vec2 getScale() const noexcept { return _scale; }
         [[nodiscard]] glm::vec2 getPosition() const noexcept { return _position; }
