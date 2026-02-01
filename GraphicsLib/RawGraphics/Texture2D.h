@@ -28,7 +28,7 @@ namespace gfx2d
         void setSmooth(bool smooth);
 
         void bind() const { glBindTexture(GL_TEXTURE_2D, _id); }
-        void unbind() const { glBindTexture(GL_TEXTURE_2D, 0); }
+        static void unbind() { glBindTexture(GL_TEXTURE_2D, 0); }
 
         [[nodiscard]] int getWidth() const { return _width; }
         [[nodiscard]] int getHeight() const { return _height; }

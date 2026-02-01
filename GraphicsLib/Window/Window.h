@@ -1,12 +1,13 @@
 #pragma once
 
+#include "GraphicsLib/Camera/Camera.h"
 #include "GraphicsLib/EventSystem/Event.h"
+#include "GraphicsLib/Graphics/Renderer/Renderer.h"
 #include "GraphicsLib/OpenGL.h"
 #include "glm/vec2.hpp"
 
 namespace gfx2d
 {
-
     using WindowPtr = std::unique_ptr<class Window>;
     using OnFrameCallback = std::function<void(float deltaTime)>;
 
@@ -21,7 +22,8 @@ namespace gfx2d
         void setOnFrameCallback(const OnFrameCallback& callback) { _onFrameCallback = callback; }
 
         [[nodiscard]] glm::vec2 getSize() const { return _windowSize; }
-        // RendererPtr& getRenderer() { return _renderer; }
+        CameraPtr& getCamera() { return _camera; }
+        RendererPtr& getRenderer() { return _renderer; }
 
     private:
         Window(unsigned int width, unsigned int height, const char* title);
@@ -38,6 +40,7 @@ namespace gfx2d
 
         glm::vec2 _windowSize{ 0 };
 
-        // RendererPtr _renderer{ nullptr };
+        CameraPtr _camera{ nullptr };
+        RendererPtr _renderer{ nullptr };
     };
 } // namespace gfx2d

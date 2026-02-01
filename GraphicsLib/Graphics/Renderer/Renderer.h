@@ -1,12 +1,12 @@
 #pragma once
 
 #include "GraphicsLib/RawGraphics/Shader.h"
-#include "GraphicsLib/Window/Window.h"
 #include "glm/mat4x4.hpp"
 
 namespace gfx2d
 {
     class Camera;
+    class Window;
     class GraphicsItem;
 
     using RendererPtr = std::unique_ptr<class Renderer>;

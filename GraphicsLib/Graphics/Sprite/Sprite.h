@@ -15,13 +15,13 @@ namespace gfx2d
     class Sprite final : public GraphicsItem
     {
     public:
-        explicit Sprite(ShaderPtr shader);
+        explicit Sprite(const ShaderPtr& shader);
         Sprite(const ShaderPtr& shader, const TextureRegion* textureRegion);
-        Sprite(ShaderPtr shader, const std::filesystem::path& texturePath);
+        Sprite(const ShaderPtr& shader, const std::filesystem::path& texturePath);
 
-        static SpritePtr create(ShaderPtr shader);
-        static SpritePtr create(ShaderPtr shader, const TextureRegion* textureRegion);
-        static SpritePtr create(ShaderPtr shader, const std::filesystem::path& texturePath);
+        static SpritePtr create(const ShaderPtr& shader);
+        static SpritePtr create(const ShaderPtr& shader, const TextureRegion* textureRegion);
+        static SpritePtr create(const ShaderPtr& shader, const std::filesystem::path& texturePath);
 
     private:
         void buildMesh(float u1, float v1, float u2, float v2);

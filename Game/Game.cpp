@@ -8,8 +8,6 @@ Game::Game()
 {
     loadDefaultResources();
 
-    // initialize members
-    _renderer = gfx2d::Renderer::create(_window.get());
     _background
         = gfx2d::Sprite::create(gfx2d::ResourceManager::getInstance()->getShader("defaultShader"));
 
@@ -28,8 +26,8 @@ void Game::run() const { _window->runMainLoop(); }
 
 void Game::onTickCallback(float deltaTime) const
 {
-    _renderer->render(_background.get());
-    _renderer->render(_player->graphicsItem().get());
+    _window->getRenderer()->render(_background.get());
+    _window->getRenderer()->render(_player->graphicsItem().get());
 }
 
 void Game::loadDefaultResources()

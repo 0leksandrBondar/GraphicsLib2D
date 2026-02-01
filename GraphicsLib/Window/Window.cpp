@@ -32,7 +32,9 @@ namespace gfx2d
     }
 
     Window::Window(const unsigned int width, const unsigned int height, const char* title)
-        : _windowSize({ width, height })
+        : _windowSize({ width, height }),
+          _camera{ Camera::create(width, height) },
+          _renderer{ Renderer::create(this, _camera.get()) }
     {
         _window = opengl::createWindow(width, height, title);
 

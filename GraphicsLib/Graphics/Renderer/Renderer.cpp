@@ -4,6 +4,7 @@
 #include "GraphicsLib/Graphics/GraphicsItem.h"
 #include "GraphicsLib/RawGraphics/Texture2D.h"
 #include "GraphicsLib/Resource/ResourceManager.h"
+#include "GraphicsLib/Window/Window.h"
 #include "glm/ext/matrix_clip_space.hpp"
 
 #include <iostream>

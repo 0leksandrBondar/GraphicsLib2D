@@ -23,8 +23,15 @@ namespace gfx2d
     void Texture2D::loadTexture(const std::filesystem::path& path)
     {
         stbi_set_flip_vertically_on_load(true);
-        unsigned char* pixels = stbi_load(path.string().c_str(), &_width, &_height, &channels, 0);
-        initialize(pixels, channels, GL_NEAREST, GL_CLAMP_TO_EDGE);
+
+        unsigned char* pixels
+            = stbi_load(path.string().c_str(), &_width, &_height, &channels, STBI_rgb_alpha);
+
+        if (!pixels)
+            throw std::runtime_error(stbi_failure_reason());
+
+        initialize(pixels, 4, GL_NEAREST, GL_CLAMP_TO_EDGE);
+
         stbi_image_free(pixels);
     }
 
@@ -35,6 +42,7 @@ namespace gfx2d
         _mode = other._mode;
         _width = other._width;
         _height = other._height;
+        _smooth = other._smooth;
         return *this;
     }
 
