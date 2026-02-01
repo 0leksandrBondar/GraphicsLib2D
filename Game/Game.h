@@ -14,6 +14,11 @@ public:
     void onTickCallback(float deltaTime) const;
 
 private:
+    void update(float deltaTime) const;
+
+    void handleKeyboard(float deltaTime) const;
+    void handleMouseScroll(float deltaTime) const;
+
     static void loadDefaultResources();
 
 private:

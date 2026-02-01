@@ -2,6 +2,7 @@
 
 #include "GraphicsLib/Camera/Camera.h"
 #include "GraphicsLib/EventSystem/Event.h"
+#include "GraphicsLib/EventSystem/Input.h"
 #include "GraphicsLib/Graphics/Renderer/Renderer.h"
 #include "GraphicsLib/OpenGL.h"
 #include "glm/vec2.hpp"

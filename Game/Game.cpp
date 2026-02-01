@@ -22,10 +22,43 @@ Game::Game() : _window{ gfx2d::Window::create(1200, 900, "gfx2d") }
 
 void Game::run() const { _window->runMainLoop(); }
 
-void Game::onTickCallback(float deltaTime) const
+void Game::onTickCallback(const float deltaTime) const
 {
+    update(deltaTime);
+
     _window->getRenderer()->render(_background.get());
     _window->getRenderer()->render(_player->graphicsItem().get());
+}
+
+void Game::update(const float deltaTime) const
+{
+    handleMouseScroll(deltaTime);
+    handleKeyboard(deltaTime);
+}
+
+void Game::handleKeyboard(const float deltaTime) const
+{
+    static constexpr int speed = 300;
+
+    if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::W))
+        _window->getCamera()->move({ 0, -speed * deltaTime });
+    if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::A))
+        _window->getCamera()->move({ -speed * deltaTime, 0 });
+    if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::S))
+        _window->getCamera()->move({ 0, speed * deltaTime });
+    if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::D))
+        _window->getCamera()->move({ speed * deltaTime, 0 });
+}
+
+void Game::handleMouseScroll(float deltaTime) const
+{
+    if (const auto scroll = gfx2d::Input::consumeMouseScroll(); scroll.y != 0.0f)
+    {
+        float zoom = _window->getCamera()->getZoom();
+        zoom *= (1.0f + scroll.y * 0.1f);
+        zoom = std::clamp(zoom, 0.1f, 5.0f);
+        _window->getCamera()->setZoom(zoom);
+    }
 }
 
 void Game::loadDefaultResources()
