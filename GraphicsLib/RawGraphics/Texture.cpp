@@ -1,28 +1,29 @@
-#include "Texture2D.h"
+#include "Texture.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_ONLY_PNG
+#include "spdlog/spdlog.h"
 #include "stb_image.h"
 
 namespace gfx2d
 {
-    Texture2D::Texture2D(const GLuint width, const GLuint height, const unsigned char* data,
-                         const size_t channels, const GLenum filter, const GLenum wrapMode)
+    Texture::Texture(const GLuint width, const GLuint height, const unsigned char* data,
+                     const size_t channels, const GLenum filter, const GLenum wrapMode)
         : _width(width), _height(height)
     {
         initialize(data, channels, filter, wrapMode);
     }
 
-    TexturePtr Texture2D::create(const std::filesystem::path& path)
+    TexturePtr Texture::create(const std::filesystem::path& path)
     {
-        return std::make_shared<Texture2D>(path);
+        return std::make_shared<Texture>(path);
     }
 
-    Texture2D::Texture2D(const std::filesystem::path& path) { loadTexture(path); }
+    Texture::Texture(const std::filesystem::path& path) { loadTexture(path); }
 
-    void Texture2D::loadTexture(const std::filesystem::path& path)
+    void Texture::loadTexture(const std::filesystem::path& path)
     {
-        stbi_set_flip_vertically_on_load(true);
+        //stbi_set_flip_vertically_on_load(true);
 
         unsigned char* pixels
             = stbi_load(path.string().c_str(), &_width, &_height, &channels, STBI_rgb_alpha);
@@ -35,7 +36,7 @@ namespace gfx2d
         stbi_image_free(pixels);
     }
 
-    Texture2D& Texture2D::operator=(Texture2D&& other) noexcept
+    Texture& Texture::operator=(Texture&& other) noexcept
     {
         glDeleteTextures(1, &_id);
         _id = other._id;
@@ -46,7 +47,7 @@ namespace gfx2d
         return *this;
     }
 
-    void Texture2D::setSmooth(const bool smooth)
+    void Texture::setSmooth(const bool smooth)
     {
         _smooth = smooth;
         bind();
@@ -59,8 +60,23 @@ namespace gfx2d
         unbind();
     }
 
-    void Texture2D::initialize(const unsigned char* data, const size_t channels,
-                               const GLenum filter, const GLenum wrapMode)
+    void Texture::addSubTexture(const std::string& name, int x, int y, int w, int h)
+    {
+        _subTextures[name] = { x, y, w, h };
+    }
+
+    const SubTexture& Texture::getSubTexture(const std::string& name) const
+    {
+        if (const auto it = _subTextures.find(name); it != _subTextures.end())
+            return it->second;
+
+        static constexpr SubTexture defaultSubTexture;
+        spdlog::warn("Texture::getSubTexture: couldn't find {}", name);
+        return defaultSubTexture;
+    }
+
+    void Texture::initialize(const unsigned char* data, const size_t channels, const GLenum filter,
+                             const GLenum wrapMode)
     {
         if (!data)
             throw std::runtime_error("Texture2D: Invalid image data.");

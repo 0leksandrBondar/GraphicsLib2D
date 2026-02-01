@@ -3,28 +3,36 @@
 #include "GraphicsLib/BaseTypes/Transformable.h"
 #include "GraphicsLib/RawGraphics/Mesh.h"
 #include "GraphicsLib/RawGraphics/Shader.h"
-#include "GraphicsLib/RawGraphics/Texture2D.h"
+#include "GraphicsLib/RawGraphics/Texture.h"
 
 #include <vector>
 
 namespace gfx2d
 {
-    class Texture2D;
+    class Texture;
 
     class GraphicsItem : public Transformable
     {
     public:
         GraphicsItem() = default;
 
-        void setColor(glm::vec4 color)
+        void setColor(const int R, const int G, const int B)
         {
-            _color = { color.x / 255, color.y / 255, color.z / 255, color.w };
+            constexpr float alpha = 1.0f;
+            _color = { R / 255.f, G / 255.f, B / 255.f, alpha };
         }
-        void setShader(const ShaderPtr& shader) { _shader = shader; }
 
-        [[nodiscard]] glm::vec4 const& getColor() const { return _color; }
+        void setShader(const ShaderPtr& shader) { _shader = shader; }
+        void setTexture(const TexturePtr& texture) { _texture = texture; }
+
+        glm::vec4 getColor() const
+        {
+            if (_texture)
+                return glm::vec4(1.f);
+            return _color;
+        }
         [[nodiscard]] ShaderPtr getShader() const { return _shader; }
-        [[nodiscard]] Texture2D const* getTexture() const { return _texture.get(); }
+        [[nodiscard]] Texture const* getTexture() const { return _texture.get(); }
         [[nodiscard]] std::vector<Mesh> const& getMeshes() const { return _meshes; }
 
     protected:

@@ -2,6 +2,7 @@
 
 #include "GraphicsLib/BaseTypes/Singleton.h"
 #include "GraphicsLib/RawGraphics/Shader.h"
+#include "GraphicsLib/RawGraphics/Texture.h"
 
 #include <unordered_map>
 
@@ -15,9 +16,13 @@ namespace gfx2d
         void loadShader(const std::string& shaderName, const std::filesystem::path& vertexPath,
                         const std::filesystem::path& fragmentPath);
 
+        void loadTexture(const std::string& textureName, const std::filesystem::path& texturePath);
+
         ShaderPtr getShader(const std::string& shaderName);
+        TexturePtr getTexture(const std::string& textureName);
 
     private:
         std::unordered_map<std::string, ShaderPtr> _shaders;
+        std::unordered_map<std::string, TexturePtr> _textures;
     };
 } // namespace gfx2d

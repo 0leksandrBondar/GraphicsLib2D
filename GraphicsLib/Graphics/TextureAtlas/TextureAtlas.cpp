@@ -17,7 +17,7 @@ namespace gfx2d
         const float v2 = 1.f - y / texH;
         const float v1 = 1.f - (y + h) / texH;
 
-        _regions[name] = TextureRegion{ _texture, u1, v1, u2, v2 };
+        //_regions[name] = TextureRegion{ _texture, u1, v1, u2, v2 };
     }
 
     const TextureRegion& TextureAtlas::get(const std::string& name) const

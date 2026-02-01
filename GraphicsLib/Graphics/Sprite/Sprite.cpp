@@ -8,7 +8,7 @@ namespace gfx2d
     Sprite::Sprite(const ShaderPtr& shader, const std::filesystem::path& texturePath)
     {
         _shader = shader;
-        _texture = Texture2D::create(texturePath);
+        _texture = Texture::create(texturePath);
         setupBuffers();
     }
 
@@ -20,29 +20,44 @@ namespace gfx2d
         setupBuffers();
     }
 
-    Sprite::Sprite(const ShaderPtr& shader, const TextureRegion* textureRegion)
-    {
-        _shader = shader;
-        _texture = textureRegion->texture;
-        buildMesh(textureRegion->u1, textureRegion->v1, textureRegion->u2, textureRegion->v2);
-    }
+    // Sprite::Sprite(const ShaderPtr& shader, const TextureRegion* textureRegion)
+    // {
+    //     _shader = shader;
+    //     _texture = textureRegion->texture;
+    //     buildMesh(textureRegion->u1, textureRegion->v1, textureRegion->u2, textureRegion->v2);
+    // }
 
     SpritePtr Sprite::create(const ShaderPtr& shader, const std::filesystem::path& texturePath)
     {
         return std::make_shared<Sprite>(shader, texturePath);
     }
-    SpritePtr Sprite::create(const ShaderPtr& shader, const TextureRegion* textureRegion)
+
+    void Sprite::activateSubTexture(const std::string& subTextureName)
     {
-        return std::make_shared<Sprite>(shader, textureRegion);
+        const auto& [x, y, width, height] = _texture->getSubTexture(subTextureName);
+
+        const float texW = static_cast<float>(_texture->getWidth());
+        const float texH = static_cast<float>(_texture->getHeight());
+
+        const float u1 = x / texW;
+        const float u2 = (x + width) / texW;
+        const float v1 = y / texH;
+        const float v2 = (y + height) / texH;
+
+        buildMesh(u1, v1, u2, v2);
     }
 
-    void Sprite::buildMesh(const float u1, const float v1, const float u2, const float v2)
+    void Sprite::buildMesh(float u1, float v1, float u2, float v2)
     {
+        _meshes.clear();
+
         const std::vector<Vertex> vertices = { { { 0.f, 0.f }, { u1, v1 } },
                                                { { 1.f, 0.f }, { u2, v1 } },
                                                { { 1.f, 1.f }, { u2, v2 } },
                                                { { 0.f, 1.f }, { u1, v2 } } };
+
         const std::vector<uint32_t> indices = { 0, 1, 2, 2, 3, 0 };
+
         _meshes.emplace_back(vertices, indices);
     }
 

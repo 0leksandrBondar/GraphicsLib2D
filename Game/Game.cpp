@@ -3,18 +3,16 @@
 #include "GraphicsLib/Resource/ResourceManager.h"
 #include "Player.h"
 
-Game::Game()
-    : _window{ gfx2d::Window::create(1200, 900, "gfx2d") }, _player{ std::make_shared<Player>() }
+Game::Game() : _window{ gfx2d::Window::create(1200, 900, "gfx2d") }
 {
     loadDefaultResources();
+    _player = std::make_shared<Player>();
 
     _background
         = gfx2d::Sprite::create(gfx2d::ResourceManager::getInstance()->getShader("defaultShader"));
 
     _background->setSize(300, 300);
-    _player->setSize(150, 150);
-
-    _background->setColor({ 122, 122, 122, 1 });
+    _background->setColor(122, 122, 122);
 
     _window->setOnFrameCallback([&](const float deltaTime) { onTickCallback(deltaTime); });
 
@@ -34,4 +32,8 @@ void Game::loadDefaultResources()
 {
     gfx2d::ResourceManager::getInstance()->loadShader("defaultShader", "Assets/Shaders/Vertex.vert",
                                                       "Assets/Shaders/Fragment.frag");
+    gfx2d::ResourceManager::getInstance()->loadTexture("PlayerAtlas", "Assets/Textures/player.png");
+    gfx2d::ResourceManager::getInstance()->loadTexture("CubeAtlas", "Assets/Textures/464.png");
+    gfx2d::ResourceManager::getInstance()->loadTexture("TrollAtlas",
+                                                       "Assets/Textures/spr_attack_strip10.png");
 }

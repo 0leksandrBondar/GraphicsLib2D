@@ -9,16 +9,13 @@ uniform bool useTexture;
 
 void main()
 {
-    vec4 baseColor = spriteColor;
+    vec4 color = spriteColor;
 
     if (useTexture)
     {
         vec4 texColor = texture(tex, TexCoord);
-
-        baseColor.rgb = mix(baseColor.rgb, texColor.rgb, texColor.a);
-        baseColor.a   = spriteColor.a;
+        color = texColor * spriteColor;
     }
 
-    FragColor = baseColor;
+    FragColor = color;
 }
-

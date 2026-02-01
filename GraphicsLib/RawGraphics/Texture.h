@@ -3,32 +3,48 @@
 #include "GraphicsLib/BaseTypes/NonCopyableButMovable.h"
 
 #include "glad/glad.h"
+#include "glm/vec2.hpp"
+
 #include <filesystem>
+#include <unordered_map>
 
 namespace gfx2d
 {
 
-    using TexturePtr = std::shared_ptr<class Texture2D>;
-    class Texture2D final : public NonCopyableButMovable
+    using TexturePtr = std::shared_ptr<class Texture>;
+
+    struct SubTexture
+    {
+        int x{ 1 };
+        int y{ 0 };
+        int width{ 0 };
+        int height{ 0 };
+    };
+
+    class Texture final : public NonCopyableButMovable
     {
     public:
-        Texture2D() = default;
-        explicit Texture2D(const std::filesystem::path& path);
-        Texture2D(GLuint width, GLuint height, const unsigned char* data, size_t channels = 4,
-                  GLenum filter = GL_LINEAR, GLenum wrapMode = GL_CLAMP_TO_EDGE);
+        Texture() = default;
+        explicit Texture(const std::filesystem::path& path);
+        Texture(GLuint width, GLuint height, const unsigned char* data, size_t channels = 4,
+                GLenum filter = GL_LINEAR, GLenum wrapMode = GL_CLAMP_TO_EDGE);
 
-        Texture2D& operator=(Texture2D&& other) noexcept;
-        Texture2D(Texture2D&& other) noexcept { *this = std::move(other); }
+        Texture& operator=(Texture&& other) noexcept;
+        Texture(Texture&& other) noexcept { *this = std::move(other); }
 
-        ~Texture2D() { glDeleteTextures(1, &_id); }
+        ~Texture() { glDeleteTextures(1, &_id); }
 
     public:
         static TexturePtr create(const std::filesystem::path& path);
 
         void setSmooth(bool smooth);
 
+        void addSubTexture(const std::string& name, int x, int y, int w, int h);
+
         void bind() const { glBindTexture(GL_TEXTURE_2D, _id); }
         static void unbind() { glBindTexture(GL_TEXTURE_2D, 0); }
+
+        const SubTexture& getSubTexture(const std::string& name) const;
 
         [[nodiscard]] int getWidth() const { return _width; }
         [[nodiscard]] int getHeight() const { return _height; }
@@ -48,6 +64,8 @@ namespace gfx2d
 
         int channels{ 0 };
         int _width{ 0 }, _height{ 0 };
+
+        std::unordered_map<std::string, SubTexture> _subTextures;
     };
 
 } // namespace gfx2d

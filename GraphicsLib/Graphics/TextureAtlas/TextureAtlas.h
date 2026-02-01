@@ -1,6 +1,7 @@
 #pragma once
 
-#include "GraphicsLib/RawGraphics/Texture2D.h"
+#include "GraphicsLib/RawGraphics/Texture.h"
+#include "glm/vec2.hpp"
 
 #include <unordered_map>
 
@@ -9,8 +10,8 @@ namespace gfx2d
     struct TextureRegion
     {
         TexturePtr texture;
-        float u1, v1;
-        float u2, v2;
+        glm::vec2 leftBottomUV;
+        glm::vec2 rightTopUV;
     };
 
     class TextureAtlas

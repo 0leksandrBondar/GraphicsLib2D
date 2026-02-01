@@ -28,7 +28,7 @@ namespace gfx2d
 
     void Shader::use() const { glUseProgram(_id); }
 
-    void Shader::setInt(const std::string& name, int value) const
+    void Shader::setInt(const std::string& name, const int value) const
     {
         glUniform1i(glGetUniformLocation(_id, name.c_str()), value);
     }
