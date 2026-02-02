@@ -7,3 +7,6 @@
 [submodule "Dependencies/SPDLOG"]
 	path = Dependencies/SPDLOG
 	url = https://github.com/gabime/spdlog.git
+[submodule "Dependencies/FreeType"]
+	path = Dependencies/FreeType
+	url = https://github.com/freetype/freetype.git
