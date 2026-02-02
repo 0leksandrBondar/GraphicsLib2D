@@ -8,6 +8,7 @@
 #include "glm/ext/matrix_clip_space.hpp"
 
 #include <iostream>
+#include <utility>
 
 #define GL_CHECK()                                                                                 \
     while (GLenum err = glGetError())                                                              \
@@ -16,23 +17,20 @@
 namespace gfx2d
 {
 
-    Renderer::Renderer(Window* window, Camera* camera) : _window(window), _camera(camera)
-    {
-        _projectionMatrix
-            = glm::ortho(0.f, _window->getSize().x, _window->getSize().y, 0.f, -100.f, 100.f);
-    }
+    Renderer::Renderer(CameraPtr camera) : _camera(std::move(camera)) {}
 
-    RendererPtr Renderer::create(Window* window, Camera* camera)
+    RendererPtr Renderer::create(const CameraPtr& camera)
     {
-        return std::make_unique<Renderer>(window, camera);
+        return std::make_unique<Renderer>(camera);
     }
 
     void Renderer::render(GraphicsItem* item)
     {
         if (item->getShader() == nullptr)
-            _shader = ResourceManager::getInstance()->getShader("defaultShader");
-        else
-            _shader = item->getShader();
+            throw std::runtime_error(
+                "Renderer::render(GraphicsItem* item) item has invalid shader");
+
+        _shader = item->getShader();
 
         updateMatrices(item);
         _shader->setVector4("spriteColor", item->getColor());
@@ -51,7 +49,7 @@ namespace gfx2d
         }
 
         if (hasTexture)
-            item->getTexture()->unbind();
+            Texture::unbind();
     }
 
     void Renderer::updateMatrices(GraphicsItem* item) const
@@ -60,12 +58,17 @@ namespace gfx2d
         {
             _shader->use();
             _shader->setMatrix4("modelMat", item->getTransformMatrix());
-            _shader->setMatrix4("projectionMat", _projectionMatrix);
 
             if (_camera != nullptr)
+            {
+                _shader->setMatrix4("projectionMat", _camera->getProjectionMatrix());
                 _shader->setMatrix4("viewMat", _camera->getViewMatrix());
+            }
             else
+            {
+                _shader->setMatrix4("projectionMat", glm::mat4(1.0f));
                 _shader->setMatrix4("viewMat", glm::mat4(1.0f));
+            }
         }
     }
 

@@ -31,6 +31,7 @@ namespace gfx2d
 
         static void onMouseMove(GLFWwindow* window, double x, double y);
         static void onMouseScroll(GLFWwindow* window, double x, double y);
+        static void onWindowResize(GLFWwindow* window, int width, int height);
         static void onMouseButton(GLFWwindow* window, int button, int action, int mods);
         static void onKeyboardButton(GLFWwindow* window, int key, int scancode, int action,
                                      int mods);

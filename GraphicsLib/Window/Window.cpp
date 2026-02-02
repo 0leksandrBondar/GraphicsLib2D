@@ -34,7 +34,7 @@ namespace gfx2d
     Window::Window(const unsigned int width, const unsigned int height, const char* title)
         : _windowSize({ width, height }),
           _camera{ Camera::create(width, height) },
-          _renderer{ Renderer::create(this, _camera.get()) }
+          _renderer{ Renderer::create(_camera) }
     {
         _window = opengl::createWindow(width, height, title);
 
@@ -44,6 +44,9 @@ namespace gfx2d
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glBlendEquation(GL_FUNC_ADD);
+
+        // WINDOW RESIZE
+        glfwSetWindowSizeCallback(_window, onWindowResize);
 
         // KEYBOARD
         glfwSetKeyCallback(_window, onKeyboardButton);
@@ -71,6 +74,35 @@ namespace gfx2d
         MouseScrolledEvent e(static_cast<float>(x), static_cast<float>(y));
         Input::onEvent(e);
     }
+
+    void Window::onWindowResize(GLFWwindow* window, int width, int height)
+    {
+        // const float targetAspect = 16.0f / 9.0f;
+        // float windowAspect = (float)width / (float)height;
+        //
+        // int vpWidth, vpHeight;
+        //
+        // if (windowAspect > targetAspect)
+        // {
+        //     vpHeight = height;
+        //     vpWidth = (int)(height * targetAspect);
+        // }
+        // else
+        // {
+        //     vpWidth = width;
+        //     vpHeight = (int)(width / targetAspect);
+        // }
+        //
+        // int x = (width - vpWidth) / 2;
+        // int y = (height - vpHeight) / 2;
+
+        glViewport(0, 0, width, height);
+
+        auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (self)
+            self->_camera->setViewport(width, height);
+    }
+
 
     void Window::onMouseButton(GLFWwindow* window, const int button, const int action, int mods)
     {

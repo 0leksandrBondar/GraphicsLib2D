@@ -34,6 +34,9 @@ namespace gfx2d
 
         // Matrix
         const glm::mat4& getViewMatrix() const;
+        const glm::mat4& getProjectionMatrix() const;
+
+        void updateProjectionMatrix(int width, int height) const;
 
         // Getters
         glm::vec2 getPosition() const { return _position; }
@@ -44,6 +47,7 @@ namespace gfx2d
         void updateMatrix() const;
 
         mutable glm::mat4 _viewMatrix{ 1.0f };
+        mutable glm::mat4 _projectionMatrix{ 1.0f };
         mutable bool _dirty{ true };
 
         glm::vec2 _position{ 0.f, 0.f };

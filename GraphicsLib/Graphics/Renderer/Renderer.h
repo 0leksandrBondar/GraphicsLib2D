@@ -1,12 +1,11 @@
 #pragma once
 
+#include "GraphicsLib/Camera/Camera.h"
 #include "GraphicsLib/RawGraphics/Shader.h"
-#include "glm/mat4x4.hpp"
 
 namespace gfx2d
 {
     class Camera;
-    class Window;
     class GraphicsItem;
 
     using RendererPtr = std::unique_ptr<class Renderer>;
@@ -15,8 +14,8 @@ namespace gfx2d
     {
     public:
         Renderer() = default;
-        static RendererPtr create(Window* window, Camera* camera = nullptr);
-        explicit Renderer(Window* window, Camera* camera);
+        static RendererPtr create(const CameraPtr& camera = nullptr);
+        explicit Renderer(CameraPtr  camera);
 
         void render(GraphicsItem* item);
 
@@ -24,9 +23,7 @@ namespace gfx2d
         void updateMatrices(GraphicsItem* item) const;
 
     private:
-        Window* _window{ nullptr };
-        Camera* _camera{ nullptr };
+        CameraPtr _camera{ nullptr };
         ShaderPtr _shader{ nullptr };
-        glm::mat4 _projectionMatrix{ 1.f };
     };
 } // namespace gfx2d

@@ -7,6 +7,7 @@ namespace gfx2d
     Camera::Camera(const float viewportWidth, const float viewportHeight)
         : _viewport(viewportWidth, viewportHeight)
     {
+        _projectionMatrix = glm::ortho(0.f, viewportWidth, viewportHeight, 0.f, -100.f, 100.f);
     }
 
     CameraPtr Camera::create(float viewportWidth, float viewportHeight)
@@ -53,6 +54,7 @@ namespace gfx2d
     void Camera::setViewport(float width, float height)
     {
         _viewport = { width, height };
+        updateProjectionMatrix(width, height);
         _dirty = true;
     }
 
@@ -61,6 +63,14 @@ namespace gfx2d
         if (_dirty)
             updateMatrix();
         return _viewMatrix;
+    }
+
+    const glm::mat4& Camera::getProjectionMatrix() const { return _projectionMatrix; }
+
+    void Camera::updateProjectionMatrix(const int width, const int height) const
+    {
+        _projectionMatrix = glm::ortho(0.f, static_cast<float>(width), static_cast<float>(height),
+                                       0.f, -100.f, 100.f);
     }
 
     void Camera::updateMatrix() const

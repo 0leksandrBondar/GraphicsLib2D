@@ -19,7 +19,6 @@ namespace gfx2d
 
    // glm::vec2 Input::getMouseScroll() { return _mouseScroll; }
 
-
     glm::vec2 Input::consumeMouseScroll()
     {
         glm::vec2 scroll = _mouseScroll;

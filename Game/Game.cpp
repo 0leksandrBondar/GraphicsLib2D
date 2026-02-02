@@ -38,7 +38,11 @@ void Game::update(const float deltaTime) const
 
 void Game::handleKeyboard(const float deltaTime) const
 {
-    static constexpr int speed = 300;
+    int speed = 300;
+    if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::LShift))
+        speed *= 2;
+    else
+        speed = 300;
 
     if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::W))
         _window->getCamera()->move({ 0, -speed * deltaTime });
