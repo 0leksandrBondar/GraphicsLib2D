@@ -13,6 +13,7 @@ namespace gfx2d
 
     using TexturePtr = std::shared_ptr<class Texture>;
 
+    // TODO: remove entity "SubTexture" use TextureRect instead of SubTexture
     struct SubTexture
     {
         int x{ 1 };

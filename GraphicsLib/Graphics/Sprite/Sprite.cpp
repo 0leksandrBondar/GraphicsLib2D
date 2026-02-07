@@ -32,6 +32,19 @@ namespace gfx2d
         return std::make_shared<Sprite>(shader, texturePath);
     }
 
+    void Sprite::setTextureRect(int x, int y, int w, int h)
+    {
+        const float texW = static_cast<float>(_texture->getWidth());
+        const float texH = static_cast<float>(_texture->getHeight());
+
+        const float u1 = x / texW;
+        const float u2 = (x + w) / texW;
+        const float v1 = y / texH;
+        const float v2 = (y + h) / texH;
+
+        buildMesh(u1, v1, u2, v2);
+    }
+
     void Sprite::activateSubTexture(const std::string& subTextureName)
     {
         const auto& [x, y, width, height] = _texture->getSubTexture(subTextureName);

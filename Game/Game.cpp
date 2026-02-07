@@ -34,6 +34,8 @@ void Game::update(const float deltaTime) const
 {
     handleMouseScroll(deltaTime);
     handleKeyboard(deltaTime);
+
+    _player->update(deltaTime);
 }
 
 void Game::handleKeyboard(const float deltaTime) const
@@ -73,4 +75,5 @@ void Game::loadDefaultResources()
     gfx2d::ResourceManager::getInstance()->loadTexture("CubeAtlas", "Assets/Textures/464.png");
     gfx2d::ResourceManager::getInstance()->loadTexture("TrollAtlas",
                                                        "Assets/Textures/spr_attack_strip10.png");
+    gfx2d::ResourceManager::getInstance()->loadTexture("Skin", "Assets/Textures/1.png");
 }

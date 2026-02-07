@@ -22,6 +22,10 @@ file(
         "Graphics/TextureAtlas/*.cpp"
         "Graphics/Renderer/*.cpp"
         "Graphics/Renderer/*.cpp"
+        "Graphics/Animation/*.h"
+        "Graphics/Animation/*.cpp"
+        "Graphics/Text/*.h"
+        "Graphics/Text/*.cpp"
         "Resource/*.h"
         "Resource/*.cpp"
 )
