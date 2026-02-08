@@ -23,8 +23,6 @@ namespace gfx2d
 
     void Texture::loadTexture(const std::filesystem::path& path)
     {
-        //stbi_set_flip_vertically_on_load(true);
-
         unsigned char* pixels
             = stbi_load(path.string().c_str(), &_width, &_height, &channels, STBI_rgb_alpha);
 
@@ -58,21 +56,6 @@ namespace gfx2d
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
 
         unbind();
-    }
-
-    void Texture::addSubTexture(const std::string& name, int x, int y, int w, int h)
-    {
-        _subTextures[name] = { x, y, w, h };
-    }
-
-    const SubTexture& Texture::getSubTexture(const std::string& name) const
-    {
-        if (const auto it = _subTextures.find(name); it != _subTextures.end())
-            return it->second;
-
-        static constexpr SubTexture defaultSubTexture;
-        spdlog::warn("Texture::getSubTexture: couldn't find {}", name);
-        return defaultSubTexture;
     }
 
     void Texture::initialize(const unsigned char* data, const size_t channels, const GLenum filter,

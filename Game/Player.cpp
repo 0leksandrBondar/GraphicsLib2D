@@ -58,9 +58,6 @@ void Player::setupAnimation() const { setupWalkAnimation(); }
 
 void Player::updateAnimation() const
 {
-    // TODO: (point to optimization) we need to check previous FrameData and if data is the same do
-    // nothing
-    //TODO: use in Texture class FrameData instead of SubTexture
     const gfx2d::FrameData data = _animator->getCurrentFrame();
     _sprite->setTextureRect(data.x, data.y, data.w, data.h);
 }

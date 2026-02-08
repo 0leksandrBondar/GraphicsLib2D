@@ -18,8 +18,6 @@ file(
         "Graphics/*.cpp"
         "Graphics/Sprite/*.h"
         "Graphics/Sprite/*.cpp"
-        "Graphics/TextureAtlas/*.h"
-        "Graphics/TextureAtlas/*.cpp"
         "Graphics/Renderer/*.cpp"
         "Graphics/Renderer/*.cpp"
         "Graphics/Animation/*.h"

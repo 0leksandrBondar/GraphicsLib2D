@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GraphicsLib/Graphics/GraphicsItem.h"
-#include "GraphicsLib/Graphics/TextureAtlas/TextureAtlas.h"
 
 #include <memory>
 
@@ -22,10 +21,6 @@ namespace gfx2d
         static SpritePtr create(const ShaderPtr& shader, const std::filesystem::path& texturePath);
 
         void setTextureRect(int x, int y, int w, int h);
-        void activateSubTexture(const std::string& subTextureName);
-
-        // Sprite(const ShaderPtr& shader, const TextureRegion* textureRegion);
-        // static SpritePtr create(const ShaderPtr& shader, const TextureRegion* textureRegion);
 
     private:
         void buildMesh(float u1, float v1, float u2, float v2);

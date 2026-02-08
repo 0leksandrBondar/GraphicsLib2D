@@ -13,15 +13,6 @@ namespace gfx2d
 
     using TexturePtr = std::shared_ptr<class Texture>;
 
-    // TODO: remove entity "SubTexture" use TextureRect instead of SubTexture
-    struct SubTexture
-    {
-        int x{ 1 };
-        int y{ 0 };
-        int width{ 0 };
-        int height{ 0 };
-    };
-
     class Texture final : public NonCopyableButMovable
     {
     public:
@@ -40,12 +31,8 @@ namespace gfx2d
 
         void setSmooth(bool smooth);
 
-        void addSubTexture(const std::string& name, int x, int y, int w, int h);
-
         void bind() const { glBindTexture(GL_TEXTURE_2D, _id); }
         static void unbind() { glBindTexture(GL_TEXTURE_2D, 0); }
-
-        const SubTexture& getSubTexture(const std::string& name) const;
 
         [[nodiscard]] int getWidth() const { return _width; }
         [[nodiscard]] int getHeight() const { return _height; }
@@ -65,8 +52,6 @@ namespace gfx2d
 
         int channels{ 0 };
         int _width{ 0 }, _height{ 0 };
-
-        std::unordered_map<std::string, SubTexture> _subTextures;
     };
 
 } // namespace gfx2d

@@ -45,20 +45,6 @@ namespace gfx2d
         buildMesh(u1, v1, u2, v2);
     }
 
-    void Sprite::activateSubTexture(const std::string& subTextureName)
-    {
-        const auto& [x, y, width, height] = _texture->getSubTexture(subTextureName);
-
-        const float texW = static_cast<float>(_texture->getWidth());
-        const float texH = static_cast<float>(_texture->getHeight());
-
-        const float u1 = x / texW;
-        const float u2 = (x + width) / texW;
-        const float v1 = y / texH;
-        const float v2 = (y + height) / texH;
-
-        buildMesh(u1, v1, u2, v2);
-    }
 
     void Sprite::buildMesh(float u1, float v1, float u2, float v2)
     {
