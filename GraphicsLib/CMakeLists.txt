@@ -16,6 +16,8 @@ file(
         "EventSystem/*.cpp"
         "Graphics/*.h"
         "Graphics/*.cpp"
+        "Graphics/Color/*.h"
+        "Graphics/Color/*.cpp"
         "Graphics/Sprite/*.h"
         "Graphics/Sprite/*.cpp"
         "Graphics/Renderer/*.cpp"

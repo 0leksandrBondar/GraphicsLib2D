@@ -48,6 +48,23 @@ namespace gfx2d
         if (it == _animations.end())
             return {};
         return it->second;
-    };
+    }
+
+    const std::string& Animator::getAnimationName(const AnimationPtr& animation) const
+    {
+        const AnimationPtr target = animation ? animation : _currentAnimation;
+
+        if (!target)
+            throw std::runtime_error("No current animation");
+
+        for (const auto& [name, anim] : _animations)
+        {
+            if (anim == target)
+                return name;
+        }
+
+        throw std::runtime_error("Animation not found in Animator");
+    }
+
 
 } // namespace gfx2d

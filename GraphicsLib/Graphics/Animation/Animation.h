@@ -25,7 +25,7 @@ namespace gfx2d
         void reset();
 
         void setLoop(const bool loop) { _loop = loop; }
-        bool isFinished() const { return _isFinished; }
+        [[nodiscard]] bool isFinished() const { return _isFinished; }
         void setFPS(const float fps);
 
         float getFrameTime() const { return _frameTime; }

@@ -26,6 +26,10 @@ namespace gfx2d
         FrameData getCurrentFrame() const;
 
         AnimationPtr getAnimation(const std::string& animationName) const;
+        AnimationPtr getCurrentAnimation() const { return _currentAnimation; }
+
+        const std::string& getAnimationName(const AnimationPtr& animation = nullptr) const;
+        std::unordered_map<std::string, AnimationPtr>& getAnimations() { return _animations; }
 
     private:
         std::unordered_map<std::string, AnimationPtr> _animations;

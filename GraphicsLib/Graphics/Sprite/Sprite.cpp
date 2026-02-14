@@ -14,9 +14,21 @@ namespace gfx2d
 
     SpritePtr Sprite::create(const ShaderPtr& shader) { return std::make_shared<Sprite>(shader); }
 
+    SpritePtr Sprite::create(const ShaderPtr& shader, const TexturePtr& texture)
+    {
+        return std::make_shared<Sprite>(shader, texture);
+    }
+
     Sprite::Sprite(const ShaderPtr& shader)
     {
         _shader = shader;
+        setupBuffers();
+    }
+
+    Sprite::Sprite(const ShaderPtr& shader, const TexturePtr& texture)
+    {
+        _shader = shader;
+        _texture = texture;
         setupBuffers();
     }
 
@@ -32,6 +44,19 @@ namespace gfx2d
         return std::make_shared<Sprite>(shader, texturePath);
     }
 
+    void Sprite::setTextureRect(const FrameData data)
+    {
+        const float texW = static_cast<float>(_texture->getWidth());
+        const float texH = static_cast<float>(_texture->getHeight());
+
+        const float u1 = data.x / texW;
+        const float u2 = (data.x + data.w) / texW;
+        const float v1 = data.y / texH;
+        const float v2 = (data.y + data.h) / texH;
+
+        buildMesh(u1, v1, u2, v2);
+    }
+
     void Sprite::setTextureRect(int x, int y, int w, int h)
     {
         const float texW = static_cast<float>(_texture->getWidth());
@@ -44,7 +69,6 @@ namespace gfx2d
 
         buildMesh(u1, v1, u2, v2);
     }
-
 
     void Sprite::buildMesh(float u1, float v1, float u2, float v2)
     {

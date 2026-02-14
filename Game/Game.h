@@ -14,6 +14,7 @@ public:
     void onTickCallback(float deltaTime) const;
 
 private:
+    void render() const;
     void update(float deltaTime) const;
 
     void handleKeyboard(float deltaTime) const;
@@ -23,7 +24,7 @@ private:
 
 private:
     gfx2d::WindowPtr _window{ nullptr };
-    gfx2d::SpritePtr _background{ nullptr };
-
     std::shared_ptr<Player> _player{ nullptr };
+
+    gfx2d::SpritePtr _sprite{ nullptr };
 };
