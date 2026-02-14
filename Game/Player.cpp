@@ -9,13 +9,13 @@ Player::Player()
       _animator{ gfx2d::Animator::create() }
 {
     setSize(300, 300);
-    setupAnimation();
-    const auto texture = gfx2d::ResourceManager::getInstance()->getTexture("Skin");
 
-    _sprite->setTexture(texture);
+    setupAnimation();
+
+    _sprite->setTexture(gfx2d::ResourceManager::getInstance()->getTexture("Skin"));
 }
 
-void Player::update(float deltaTime) const
+void Player::update(const float deltaTime) const
 {
     _animator->update(deltaTime);
     handleInput(deltaTime);

@@ -33,7 +33,11 @@ namespace gfx2d
         _shader = item->getShader();
 
         updateMatrices(item);
-        _shader->setVector4("spriteColor", item->getColor());
+
+        const glm::vec4 color = { item->getColor().r(), item->getColor().g(), item->getColor().b(),
+                            item->getColor().a() };
+
+        _shader->setVector4("spriteColor", color);
 
         const auto hasTexture = item->getTexture() != nullptr;
 
