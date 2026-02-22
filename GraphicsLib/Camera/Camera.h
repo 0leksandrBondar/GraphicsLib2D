@@ -38,6 +38,10 @@ namespace gfx2d
 
         void updateProjectionMatrix(int width, int height) const;
 
+        glm::vec2 screenToWorld(const glm::vec2& screenPos) const;
+        glm::vec2 worldToScreen(const glm::vec2& worldPos) const;
+
+
         // Getters
         glm::vec2 getPosition() const { return _position; }
         float getRotation() const { return _rotation; }

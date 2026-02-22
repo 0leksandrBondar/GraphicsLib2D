@@ -73,6 +73,39 @@ namespace gfx2d
                                        0.f, -100.f, 100.f);
     }
 
+    glm::vec2 Camera::screenToWorld(const glm::vec2& screenPos) const
+    {
+        const glm::vec2 windowSize = { _viewport.x, _viewport.y };
+
+        const float x = (2.0f * screenPos.x) / windowSize.x - 1.0f;
+        const float y = 1.0f - (2.0f * screenPos.y) / windowSize.y;
+
+        const auto clipCoords = glm::vec4(x, y, 0.0f, 1.0f);
+
+        const glm::mat4 invVP = glm::inverse(getProjectionMatrix() * getViewMatrix());
+
+        const glm::vec4 world = invVP * clipCoords;
+
+        return glm::vec2(world.x, world.y);
+    }
+    
+    glm::vec2 Camera::worldToScreen(const glm::vec2& worldPos) const
+    {
+        const auto world = glm::vec4(worldPos, 0.0f, 1.0f);
+
+        const glm::mat4 vp = getProjectionMatrix() * getViewMatrix();
+
+        const glm::vec4 clip = vp * world;
+
+        const glm::vec3 ndc = glm::vec3(clip) / clip.w;
+
+        glm::vec2 screen;
+        screen.x = (ndc.x + 1.0f) * 0.5f * _viewport.x;
+        screen.y = (1.0f - ndc.y) * 0.5f * _viewport.y;
+
+        return screen;
+    }
+
     void Camera::updateMatrix() const
     {
         glm::mat4 view(1.0f);
