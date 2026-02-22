@@ -19,6 +19,22 @@ namespace gfx2d
         glDeleteShader(fragmentShader);
     }
 
+    int Shader::getUniformLocation(const std::string& name) const
+    {
+        use();
+
+        if (_uniformCache.contains(name))
+            return _uniformCache[name];
+
+        const int location = glGetUniformLocation(_id, name.c_str());
+
+        if (location == -1)
+            spdlog::error("Shader [{}]: uniform '{}' not found", _id, name);
+
+        _uniformCache[name] = location;
+        return location;
+    }
+
     ShaderPtr Shader::create(const std::string& vertexShader, const std::string& fragmentShader)
     {
         return std::shared_ptr<Shader>(new Shader(vertexShader, fragmentShader));
@@ -30,7 +46,12 @@ namespace gfx2d
 
     void Shader::setInt(const std::string& name, const int value) const
     {
-        glUniform1i(glGetUniformLocation(_id, name.c_str()), value);
+        glUniform1i(getUniformLocation(name), value);
+    }
+
+    void Shader::setFloat(const std::string& name, const float value) const
+    {
+        glUniform1f(getUniformLocation(name), value);
     }
 
     void Shader::validateProgramLinking(GLuint shaderID) const
@@ -67,17 +88,17 @@ namespace gfx2d
 
     void Shader::setBool(const std::string& name, const bool value) const
     {
-        glUniform1i(glGetUniformLocation(_id, name.c_str()), value ? GL_TRUE : GL_FALSE);
+        glUniform1i(getUniformLocation(name), value ? 1 : 0);
     }
 
     void Shader::setVector4(const std::string& name, const glm::vec4& value) const
     {
-        glUniform4fv(glGetUniformLocation(_id, name.c_str()), 1, glm::value_ptr(value));
+        glUniform4fv(getUniformLocation(name), 1, glm::value_ptr(value));
     }
 
     void Shader::setMatrix4(const std::string& name, const glm::mat4& matrix) const
     {
-        glUniformMatrix4fv(glGetUniformLocation(_id, name.c_str()), 1, GL_FALSE, value_ptr(matrix));
+        glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
     void Shader::createProgram(const GLuint vertexShader, const GLuint fragmentShader)

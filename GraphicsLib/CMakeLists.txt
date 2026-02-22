@@ -26,8 +26,6 @@ file(
         "Graphics/Animation/*.cpp"
         "Graphics/Text/*.h"
         "Graphics/Text/*.cpp"
-        "Resource/*.h"
-        "Resource/*.cpp"
 )
 
 add_library(

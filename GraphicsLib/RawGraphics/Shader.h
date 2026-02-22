@@ -20,6 +20,7 @@ namespace gfx2d
         void use() const;
 
         void setInt(const std::string& name, int value) const;
+        void setFloat(const std::string& name, float value) const;
         void setBool(const std::string& name, bool value) const;
         void setVector4(const std::string& name, const glm::vec4& value) const;
         void setMatrix4(const std::string& name, const glm::mat4& matrix) const;
@@ -27,6 +28,8 @@ namespace gfx2d
     private:
         Shader(const std::filesystem::path& vertexShaderPath,
                const std::filesystem::path& fragmentShaderPath);
+
+        int getUniformLocation(const std::string& name) const;
 
         void validateProgramLinking(GLuint shaderID) const;
         void validateShaderCompilation(GLuint shaderID) const;
@@ -36,5 +39,6 @@ namespace gfx2d
 
     private:
         GLuint _id{ 0 };
+        mutable std::unordered_map<std::string, int> _uniformCache;
     };
 } // namespace gfx2d
