@@ -7,6 +7,8 @@
 namespace gfx2d
 {
     std::array<bool, 512> Input::_keys{};
+    std::array<bool, 512> Input::_prevKeys{};
+    std::array<bool, 8> Input::_prevMouseButtons{};
     std::array<bool, 8> Input::_mouseButtons{};
     glm::vec2 Input::_mousePos{};
     glm::vec2 Input::_mouseScroll{ 0.0f, 0.0f };
@@ -17,7 +19,7 @@ namespace gfx2d
 
     glm::vec2 Input::getMousePosition() { return _mousePos; }
 
-   // glm::vec2 Input::getMouseScroll() { return _mouseScroll; }
+    // glm::vec2 Input::getMouseScroll() { return _mouseScroll; }
 
     glm::vec2 Input::consumeMouseScroll()
     {
@@ -26,6 +28,18 @@ namespace gfx2d
         return scroll;
     }
 
+    bool Input::isKeyJustPressed(const int key) { return _keys[key] && !_prevKeys[key]; }
+
+    bool Input::isMouseButtonJustPressed(const int button)
+    {
+        return _mouseButtons[button] && !_prevMouseButtons[button];
+    }
+
+    void Input::update()
+    {
+        _prevKeys = _keys;
+        _prevMouseButtons = _mouseButtons;
+    }
 
     void Input::onEvent(Event& e)
     {

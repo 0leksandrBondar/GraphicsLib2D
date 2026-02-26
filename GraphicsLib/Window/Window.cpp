@@ -27,6 +27,7 @@ namespace gfx2d
                 _onFrameCallback(deltaTime);
 
             glfwSwapBuffers(_window);
+            Input::update();
             glfwPollEvents();
         }
     }
@@ -77,25 +78,6 @@ namespace gfx2d
 
     void Window::onWindowResize(GLFWwindow* window, int width, int height)
     {
-        // const float targetAspect = 16.0f / 9.0f;
-        // float windowAspect = (float)width / (float)height;
-        //
-        // int vpWidth, vpHeight;
-        //
-        // if (windowAspect > targetAspect)
-        // {
-        //     vpHeight = height;
-        //     vpWidth = (int)(height * targetAspect);
-        // }
-        // else
-        // {
-        //     vpWidth = width;
-        //     vpHeight = (int)(width / targetAspect);
-        // }
-        //
-        // int x = (width - vpWidth) / 2;
-        // int y = (height - vpHeight) / 2;
-
         glViewport(0, 0, width, height);
 
         auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));

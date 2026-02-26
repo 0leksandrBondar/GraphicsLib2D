@@ -74,6 +74,6 @@ void Game::handleMouseClick(float deltaTime) const
     const bool isMouseOnPlayer = mouseWorld.x >= pos.x && mouseWorld.x <= pos.x + size.x
                                  && mouseWorld.y >= pos.y && mouseWorld.y <= pos.y + size.y;
 
-    if (isMouseOnPlayer && gfx2d::Input::isMouseButtonPressed(gfx2d::Mouse::LeftButton))
+    if (isMouseOnPlayer && gfx2d::Input::isMouseButtonJustPressed(gfx2d::Mouse::LeftButton))
         _player->setSelection(!_player->isSelected());
 }
