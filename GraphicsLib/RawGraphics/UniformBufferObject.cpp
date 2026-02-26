@@ -20,7 +20,7 @@ namespace gfx2d
 
         glGenBuffers(1, &_id);
         glBindBuffer(GL_UNIFORM_BUFFER, _id);
-        glBufferData(GL_UNIFORM_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+        glBufferData(GL_UNIFORM_BUFFER, size, nullptr, GL_STATIC_DRAW);
 
         glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, _id);
 

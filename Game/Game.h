@@ -19,12 +19,13 @@ private:
 
     void handleKeyboard(float deltaTime) const;
     void handleMouseScroll(float deltaTime) const;
-
-    static void loadDefaultResources();
+    void handleMouseClick(float deltaTime) const;
 
 private:
     gfx2d::WindowPtr _window{ nullptr };
     std::shared_ptr<Player> _player{ nullptr };
 
-    gfx2d::SpritePtr _sprite{ nullptr };
+    std::vector<gfx2d::SpritePtr> _map;
+
+    gfx2d::SpritePtr _tileMap{ nullptr };
 };

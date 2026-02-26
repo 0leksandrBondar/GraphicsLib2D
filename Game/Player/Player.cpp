@@ -1,25 +1,16 @@
 #include "Player.h"
 
+#include "../ResourceManager/ResourceManager.h"
 #include "GraphicsLib/EventSystem/Input.h"
-#include "GraphicsLib/Resource/ResourceManager.h"
 
 Player::Player()
-    : _sprite{ gfx2d::Sprite::create(gfx2d::ResourceManager::getInstance()->getShader(
-                                         "defaultShader"),
-                                     gfx2d::ResourceManager::getInstance()->getTexture(
-                                         "Player_idle")) },
+    : _sprite{ gfx2d::Sprite::create(ResourceManager::getInstance()->getShader("defaultShader"),
+                                     ResourceManager::getInstance()->getTexture("Player_idle")) },
       _animator{ gfx2d::Animator::create() }
 {
     setSize(300, 300);
     setupAnimation();
     _animator->play("idle_front");
-
-    gfx2d::ResourceManager::getInstance()
-        ->getShader("defaultShader")
-        ->setBool("showDebugRect", true);
-    gfx2d::ResourceManager::getInstance()
-        ->getShader("defaultShader")
-        ->setVector4("debugColor",{ 1.0f, 0.0f, 0.0f, 1.0f});
 }
 
 void Player::update(const float deltaTime)
@@ -115,7 +106,6 @@ void Player::updateDirection()
         _moveDirection = Direction::Right;
 }
 
-
 void Player::updateAnimState()
 {
     const bool setWalkAnimType = gfx2d::Input::isKeyPressed(gfx2d::Keyboard::Up)
@@ -134,16 +124,14 @@ void Player::updateAnimState()
 void Player::updateTextureDependsOfAnimState() const
 {
     if (_animType == AnimType::Idle
-        && _sprite->getTexture()
-               != gfx2d::ResourceManager::getInstance()->getTexture("Player_idle"))
+        && _sprite->getTexture() != ResourceManager::getInstance()->getTexture("Player_idle"))
     {
-        _sprite->setTexture(gfx2d::ResourceManager::getInstance()->getTexture("Player_idle"));
+        _sprite->setTexture(ResourceManager::getInstance()->getTexture("Player_idle"));
     }
     else if (_animType == AnimType::Walk
-             && _sprite->getTexture()
-                    != gfx2d::ResourceManager::getInstance()->getTexture("Player_walk"))
+             && _sprite->getTexture() != ResourceManager::getInstance()->getTexture("Player_walk"))
     {
-        _sprite->setTexture(gfx2d::ResourceManager::getInstance()->getTexture("Player_walk"));
+        _sprite->setTexture(ResourceManager::getInstance()->getTexture("Player_walk"));
     }
 }
 

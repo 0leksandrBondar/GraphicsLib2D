@@ -28,6 +28,10 @@ namespace gfx2d
         void setTexture(const TexturePtr& texture) { _texture = texture; }
 
         [[nodiscard]] Color getColor() const { return _color; }
+        [[nodiscard]] glm::vec4 getColorVec4() const
+        {
+            return { _color.r(), _color.g(), _color.b(), _color.a() };
+        }
         [[nodiscard]] ShaderPtr getShader() const { return _shader; }
         [[nodiscard]] TexturePtr getTexture() const { return _texture; }
         [[nodiscard]] std::vector<Mesh> const& getMeshes() const { return _meshes; }

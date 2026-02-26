@@ -88,7 +88,7 @@ namespace gfx2d
 
         return glm::vec2(world.x, world.y);
     }
-    
+
     glm::vec2 Camera::worldToScreen(const glm::vec2& worldPos) const
     {
         const auto world = glm::vec4(worldPos, 0.0f, 1.0f);

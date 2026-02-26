@@ -1,6 +1,16 @@
 cmake_minimum_required(VERSION 3.30..)
 
-add_executable(${PROJECT_NAME} Main.cpp Game.cpp Game.h Player.h Player.cpp)
+set(Source Main.cpp
+        Game.h
+        Game.cpp
+        Player/Player.h
+        Player/Player.cpp
+        ResourceManager/ResourceManager.h
+        ResourceManager/ResourceManager.cpp
+)
+
+
+add_executable(${PROJECT_NAME} ${Source})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE GraphicsLib)
 

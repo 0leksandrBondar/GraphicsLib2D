@@ -32,6 +32,14 @@ public:
     void setPosition(const glm::vec2 pos) const { _sprite->setPosition(pos); }
     void setSize(const float w, const float h) const { _sprite->setSize(w, h); }
 
+    void setSelection(const bool selection)
+    {
+        _isSelected = selection;
+        _sprite->getShader()->use();
+        _sprite->getShader()->setBool("selection", selection);
+    }
+
+    bool isSelected() { return _isSelected; }
 
     gfx2d::SpritePtr& graphicsItem() { return _sprite; }
 
@@ -53,4 +61,6 @@ private:
     gfx2d::AnimatorPtr _animator{ nullptr };
     AnimType _animType{ AnimType::Idle };
     Direction _moveDirection{ Direction::Up };
+
+    bool _isSelected{ false };
 };
