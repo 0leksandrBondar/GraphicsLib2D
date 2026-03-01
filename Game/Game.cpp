@@ -10,6 +10,7 @@ Game::Game() : _window{ gfx2d::Window::create(1200, 900, "gfx2d") }
     ResourceManager::getInstance()->loadAllResources();
     _player = std::make_shared<Player>();
     _window->setOnFrameCallback([&](const float deltaTime) { onTickCallback(deltaTime); });
+    setupMap();
 }
 
 void Game::run() const { _window->runMainLoop(); }
@@ -22,6 +23,10 @@ void Game::onTickCallback(const float deltaTime) const
 
 void Game::render() const
 {
+    for (const auto& map : _map)
+    {
+        _window->getRenderer()->render(map.get());
+    }
     _window->getRenderer()->render(_player->graphicsItem().get());
 }
 
@@ -32,6 +37,32 @@ void Game::update(const float deltaTime) const
     handleMouseClick(deltaTime);
 
     _player->update(deltaTime);
+}
+
+void Game::setupMap()
+{
+    const int mapWidth = 20;
+    const int mapHeight = 20;
+    const int tileSize = 32;
+
+    _map.resize(mapWidth * mapHeight);
+
+    for (int y = 0; y < mapHeight; ++y)
+    {
+        for (int x = 0; x < mapWidth; ++x)
+        {
+            int index = y * mapWidth + x;
+
+            _map[index]
+                = gfx2d::Sprite::create(ResourceManager::getInstance()->getShader("defaultShader"));
+
+            _map[index]->setSize(tileSize, tileSize);
+            _map[index]->setColor(gfx2d::DefColor::Cyan);
+
+            _map[index]->setPosition({ static_cast<float>(x * tileSize + x * 10),
+                                       static_cast<float>(y * tileSize + y * 10) });
+        }
+    }
 }
 
 void Game::handleKeyboard(const float deltaTime) const
