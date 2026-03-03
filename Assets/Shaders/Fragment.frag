@@ -4,7 +4,7 @@ in vec2 TexCoord;
 out vec4 FragColor;
 
 uniform sampler2D tex;
-uniform vec4 spriteColor;
+uniform vec4 color;
 uniform bool useTexture;
 uniform bool selection;
 
@@ -35,12 +35,12 @@ vec4 getOutlineColor(vec2 uv)
 
 void main()
 {
-    vec4 color = spriteColor;
+    vec4 color = color;
 
     if (useTexture)
     {
         vec4 texColor = texture(tex, TexCoord);
-        color = texColor * spriteColor;
+        color = texColor * color;
     }
 
     if (selection)

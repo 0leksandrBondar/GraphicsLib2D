@@ -8,7 +8,7 @@ Player::Player()
                                      ResourceManager::getInstance()->getTexture("Player_idle")) },
       _animator{ gfx2d::Animator::create() }
 {
-    setSize(300, 300);
+    setSize(32, 32);
     setupAnimation();
     _animator->play("idle_front");
 }

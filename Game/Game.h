@@ -14,11 +14,12 @@ public:
     void onTickCallback(float deltaTime) const;
 
 private:
+    void draw(gfx2d::GraphicsItem* item) const;
+
     void render() const;
     void update(float deltaTime) const;
 
     void setupMap();
-
     void handleKeyboard(float deltaTime) const;
     void handleMouseScroll(float deltaTime) const;
     void handleMouseClick(float deltaTime) const;

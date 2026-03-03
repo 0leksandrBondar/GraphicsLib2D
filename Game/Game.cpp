@@ -21,13 +21,42 @@ void Game::onTickCallback(const float deltaTime) const
     render();
 }
 
+void Game::draw(gfx2d::GraphicsItem* item) const
+{
+    const auto shader = item->getShader();
+
+    shader->use();
+
+    // -------------------- vertex shader ----------------------------
+    shader->setMatrix4("modelMat", item->getTransformMatrix());
+    shader->setMatrix4("viewMat", _window->getCamera()->getViewMatrix());
+    shader->setMatrix4("projectionMat", _window->getCamera()->getProjectionMatrix());
+
+    // -------------------- fragment shader ----------------------------
+    shader->setBool("useTexture", item->getShader() != nullptr);
+    shader->setVector4("color", item->getColorVec4());
+    //shader->setBool("selection", _player->isSelected());
+
+    if (item->getTexture() != nullptr)
+        item->getTexture()->bind();
+
+    for (auto& mesh : item->getMeshes())
+    {
+        mesh.bindVertexArrayObject();
+        glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, nullptr);
+    }
+   // shader->setBool("selection", false);
+
+    gfx2d::Texture::unbind();
+}
+
 void Game::render() const
 {
     for (const auto& map : _map)
     {
-        _window->getRenderer()->render(map.get());
+        draw(map.get());
     }
-    _window->getRenderer()->render(_player->graphicsItem().get());
+    draw(_player->graphicsItem().get());
 }
 
 void Game::update(const float deltaTime) const
@@ -41,9 +70,10 @@ void Game::update(const float deltaTime) const
 
 void Game::setupMap()
 {
-    const int mapWidth = 20;
-    const int mapHeight = 20;
-    const int tileSize = 32;
+    const int mapWidth = 50;
+    const int mapHeight = 50;
+    const int tileWidth = 32;
+    const int tileHeight = 16;
 
     _map.resize(mapWidth * mapHeight);
 
@@ -51,16 +81,18 @@ void Game::setupMap()
     {
         for (int x = 0; x < mapWidth; ++x)
         {
-            int index = y * mapWidth + x;
+            const int index = y * mapWidth + x;
 
             _map[index]
                 = gfx2d::Sprite::create(ResourceManager::getInstance()->getShader("defaultShader"));
+            _map[index]->setTexture(ResourceManager::getInstance()->getTexture("Tiles"));
+            _map[index]->setTextureRect(32 * 4, 16, 32, 16);
+            _map[index]->setSize(tileWidth, tileHeight);
 
-            _map[index]->setSize(tileSize, tileSize);
-            _map[index]->setColor(gfx2d::DefColor::Cyan);
+            float isoX = (x - y) * (tileWidth / 2.0f);
+            float isoY = (x + y) * (tileHeight / 2.0f);
 
-            _map[index]->setPosition({ static_cast<float>(x * tileSize + x * 10),
-                                       static_cast<float>(y * tileSize + y * 10) });
+            _map[index]->setPosition({ isoX, isoY });
         }
     }
 }
