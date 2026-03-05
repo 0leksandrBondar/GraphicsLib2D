@@ -11,6 +11,7 @@ Game::Game() : _window{ gfx2d::Window::create(1200, 900, "gfx2d") }
     _player = std::make_shared<Player>();
     _window->setOnFrameCallback([&](const float deltaTime) { onTickCallback(deltaTime); });
     setupMap();
+    _window->getCamera()->setZoom(2.5);
 }
 
 void Game::run() const { _window->runMainLoop(); }
@@ -35,7 +36,7 @@ void Game::draw(gfx2d::GraphicsItem* item) const
     // -------------------- fragment shader ----------------------------
     shader->setBool("useTexture", item->getShader() != nullptr);
     shader->setVector4("color", item->getColorVec4());
-    //shader->setBool("selection", _player->isSelected());
+    // shader->setBool("selection", _player->isSelected());
 
     if (item->getTexture() != nullptr)
         item->getTexture()->bind();
@@ -45,7 +46,7 @@ void Game::draw(gfx2d::GraphicsItem* item) const
         mesh.bindVertexArrayObject();
         glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, nullptr);
     }
-   // shader->setBool("selection", false);
+    // shader->setBool("selection", false);
 
     gfx2d::Texture::unbind();
 }
@@ -62,8 +63,13 @@ void Game::render() const
 void Game::update(const float deltaTime) const
 {
     handleMouseScroll(deltaTime);
-    handleKeyboard(deltaTime);
     handleMouseClick(deltaTime);
+
+    // camera following to player
+    glm::vec2 cameraPos = _window->getCamera()->getPosition();
+    constexpr float smoothSpeed = 5.0f;
+    cameraPos += ( _player->graphicsItem()->getGlobalCenter() - cameraPos) * smoothSpeed * deltaTime;
+    _window->getCamera()->setPosition(cameraPos);
 
     _player->update(deltaTime);
 }
@@ -72,8 +78,8 @@ void Game::setupMap()
 {
     const int mapWidth = 50;
     const int mapHeight = 50;
-    const int tileWidth = 32;
-    const int tileHeight = 16;
+    const int tileWidth = 64;
+    const int tileHeight = 32;
 
     _map.resize(mapWidth * mapHeight);
 
@@ -97,31 +103,13 @@ void Game::setupMap()
     }
 }
 
-void Game::handleKeyboard(const float deltaTime) const
-{
-    int speed = 300;
-    if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::LShift))
-        speed *= 2;
-    else
-        speed = 300;
-
-    if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::W))
-        _window->getCamera()->move({ 0, -speed * deltaTime });
-    if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::A))
-        _window->getCamera()->move({ -speed * deltaTime, 0 });
-    if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::S))
-        _window->getCamera()->move({ 0, speed * deltaTime });
-    if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::D))
-        _window->getCamera()->move({ speed * deltaTime, 0 });
-}
-
 void Game::handleMouseScroll(float deltaTime) const
 {
     if (const auto scroll = gfx2d::Input::consumeMouseScroll(); scroll.y != 0.0f)
     {
         float zoom = _window->getCamera()->getZoom();
         zoom *= (1.0f + scroll.y * 0.1f);
-        zoom = std::clamp(zoom, 0.1f, 5.0f);
+        zoom = std::clamp(zoom, 2.5f, 5.0f);
         _window->getCamera()->setZoom(zoom);
     }
 }
