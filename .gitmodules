@@ -10,3 +10,6 @@
 [submodule "Dependencies/FreeType"]
 	path = Dependencies/FreeType
 	url = https://github.com/freetype/freetype.git
+[submodule "Dependencies/ImGui"]
+	path = Dependencies/ImGui
+	url = https://github.com/ocornut/imgui.git
