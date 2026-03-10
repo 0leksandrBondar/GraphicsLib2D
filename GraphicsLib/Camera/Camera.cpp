@@ -58,6 +58,17 @@ namespace gfx2d
         _dirty = true;
     }
 
+    math::AABB Camera::getAABB() const
+    {
+        const glm::vec2 camPos = getPosition();
+        const float zoom = getZoom();
+
+        const float width = _viewport.x / zoom;
+        const float height = _viewport.y / zoom;
+
+        return { camPos.x - width * 0.5f, camPos.y - height * 0.5f, width, height };
+    }
+
     const glm::mat4& Camera::getViewMatrix() const
     {
         if (_dirty)

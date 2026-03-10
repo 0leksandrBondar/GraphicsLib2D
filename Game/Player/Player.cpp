@@ -22,16 +22,27 @@ void Player::update(const float deltaTime)
     updateDirection();
     updateAnimation();
 
-    static constexpr int speed = 100;
+    static constexpr float speed = 100.0f;
+    glm::vec2 dir = {0.0f, 0.0f};
 
     if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::Up))
-        _sprite->move(0, -speed * deltaTime);
+        dir.y -= 1.0f;
+
     if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::Down))
-        _sprite->move(0, speed * deltaTime);
+        dir.y += 1.0f;
+
     if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::Left))
-        _sprite->move(-speed * deltaTime, 0);
+        dir.x -= 1.0f;
+
     if (gfx2d::Input::isKeyPressed(gfx2d::Keyboard::Right))
-        _sprite->move(speed * deltaTime, 0);
+        dir.x += 1.0f;
+
+    if (dir.x != 0.0f || dir.y != 0.0f)
+    {
+        dir = glm::normalize(dir);
+        glm::vec2 newDir = dir * speed * deltaTime;
+        _sprite->move(newDir.x,newDir.y);
+    }
 }
 
 void Player::setupWalkAnimation() const

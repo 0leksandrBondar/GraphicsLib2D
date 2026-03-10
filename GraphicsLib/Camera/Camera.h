@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GraphicsLib/Math/AABB.h"
 #include "glm/mat4x4.hpp"
 #include "glm/vec2.hpp"
 
@@ -32,6 +33,8 @@ namespace gfx2d
         // Viewport
         void setViewport(float width, float height);
 
+        math::AABB getAABB() const;
+
         // Matrix
         const glm::mat4& getViewMatrix() const;
         const glm::mat4& getProjectionMatrix() const;
@@ -40,7 +43,6 @@ namespace gfx2d
 
         glm::vec2 screenToWorld(const glm::vec2& screenPos) const;
         glm::vec2 worldToScreen(const glm::vec2& worldPos) const;
-
 
         // Getters
         glm::vec2 getPosition() const { return _position; }

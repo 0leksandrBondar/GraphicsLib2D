@@ -36,7 +36,6 @@ void Game::draw(gfx2d::GraphicsItem* item) const
     // -------------------- fragment shader ----------------------------
     shader->setBool("useTexture", item->getShader() != nullptr);
     shader->setVector4("color", item->getColorVec4());
-    // shader->setBool("selection", _player->isSelected());
 
     if (item->getTexture() != nullptr)
         item->getTexture()->bind();
@@ -46,17 +45,27 @@ void Game::draw(gfx2d::GraphicsItem* item) const
         mesh.bindVertexArrayObject();
         glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, nullptr);
     }
-    // shader->setBool("selection", false);
 
     gfx2d::Texture::unbind();
 }
 
 void Game::render() const
 {
-    for (const auto& map : _map)
+    const gfx2d::math::AABB cameraBox = _window->getCamera()->getAABB();
+
+    for (const auto& tile : _map)
     {
-        draw(map.get());
+        const auto pos = tile->getPosition();
+        const auto size = tile->getSize();
+
+        const gfx2d::math::AABB tileBox = gfx2d::math::fromPositionSize(pos, size);
+
+        if (!cameraBox.intersects(tileBox))
+            continue;
+
+        draw(tile.get());
     }
+
     draw(_player->graphicsItem().get());
 }
 
@@ -68,7 +77,7 @@ void Game::update(const float deltaTime) const
     // camera following to player
     glm::vec2 cameraPos = _window->getCamera()->getPosition();
     constexpr float smoothSpeed = 5.0f;
-    cameraPos += ( _player->graphicsItem()->getGlobalCenter() - cameraPos) * smoothSpeed * deltaTime;
+    cameraPos += (_player->graphicsItem()->getGlobalCenter() - cameraPos) * smoothSpeed * deltaTime;
     _window->getCamera()->setPosition(cameraPos);
 
     _player->update(deltaTime);
@@ -76,8 +85,8 @@ void Game::update(const float deltaTime) const
 
 void Game::setupMap()
 {
-    const int mapWidth = 50;
-    const int mapHeight = 50;
+    const int mapWidth = 150;
+    const int mapHeight = 150;
     const int tileWidth = 64;
     const int tileHeight = 32;
 
