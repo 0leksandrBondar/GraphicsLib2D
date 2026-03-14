@@ -2,7 +2,7 @@
 
 #include "GraphicsLib/BaseTypes/Singleton.h"
 #include "GraphicsLib/RawGraphics/Shader.h"
-#include "GraphicsLib/RawGraphics/Texture.h"
+#include "GraphicsLib/Graphics/Texture/Texture.h"
 
 #include <unordered_map>
 

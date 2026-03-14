@@ -37,16 +37,7 @@ void Game::draw(gfx2d::GraphicsItem* item) const
     shader->setBool("useTexture", item->getShader() != nullptr);
     shader->setVector4("color", item->getColorVec4());
 
-    if (item->getTexture() != nullptr)
-        item->getTexture()->bind();
-
-    for (auto& mesh : item->getMeshes())
-    {
-        mesh.bindVertexArrayObject();
-        glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, nullptr);
-    }
-
-    gfx2d::Texture::unbind();
+    gfx2d::Renderer::render(item);
 }
 
 void Game::render() const

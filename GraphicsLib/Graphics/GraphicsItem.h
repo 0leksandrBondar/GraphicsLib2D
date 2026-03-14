@@ -2,9 +2,10 @@
 
 #include "Color/Color.h"
 #include "GraphicsLib/BaseTypes/Transformable.h"
+#include "GraphicsLib/Graphics/Texture/Texture.h"
+#include "GraphicsLib/Math/Rect.h"
 #include "GraphicsLib/RawGraphics/Mesh.h"
 #include "GraphicsLib/RawGraphics/Shader.h"
-#include "GraphicsLib/RawGraphics/Texture.h"
 
 #include <vector>
 
@@ -25,7 +26,9 @@ namespace gfx2d
         void setColor(const DefColor color) { _color = Color(color); }
 
         void setShader(const ShaderPtr& shader) { _shader = shader; }
+
         void setTexture(const TexturePtr& texture) { _texture = texture; }
+        void setTextureRect(const Rect textureRect) {}
 
         [[nodiscard]] Color getColor() const { return _color; }
         [[nodiscard]] glm::vec4 getColorVec4() const

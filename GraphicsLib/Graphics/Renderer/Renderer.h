@@ -17,7 +17,7 @@ namespace gfx2d
         static RendererPtr create(const CameraPtr& camera = nullptr);
         explicit Renderer(CameraPtr  camera);
 
-        void render(GraphicsItem* item);
+        static void render(const GraphicsItem* item);
 
     private:
         void updateMatrices(GraphicsItem* item) const;

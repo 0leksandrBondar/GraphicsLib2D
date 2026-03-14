@@ -20,7 +20,6 @@ private:
     void update(float deltaTime) const;
 
     void setupMap();
-    void handleKeyboard(float deltaTime) const;
     void handleMouseScroll(float deltaTime) const;
     void handleMouseClick(float deltaTime) const;
 

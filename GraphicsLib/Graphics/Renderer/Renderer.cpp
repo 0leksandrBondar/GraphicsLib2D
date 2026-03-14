@@ -2,7 +2,7 @@
 
 #include "GraphicsLib/Camera/Camera.h"
 #include "GraphicsLib/Graphics/GraphicsItem.h"
-#include "GraphicsLib/RawGraphics/Texture.h"
+#include "GraphicsLib/Graphics/Texture/Texture.h"
 #include "GraphicsLib/Window/Window.h"
 #include "glm/ext/matrix_clip_space.hpp"
 
@@ -23,27 +23,10 @@ namespace gfx2d
         return std::make_unique<Renderer>(camera);
     }
 
-    void Renderer::render(GraphicsItem* item)
+    void Renderer::render(const GraphicsItem* item)
     {
-        if (item->getShader() == nullptr)
-            throw std::runtime_error(
-                "Renderer::render(GraphicsItem* item) item has invalid shader");
-
-        _shader = item->getShader();
-
-        updateMatrices(item);
-
-        const glm::vec4 color = { item->getColor().r(), item->getColor().g(), item->getColor().b(),
-                            item->getColor().a() };
-
-        _shader->setVector4("spriteColor", color);
-
-        const auto hasTexture = item->getTexture() != nullptr;
-
-         _shader->setBool("useTexture", hasTexture);
-
-        if (hasTexture)
-            item->getTexture()->bind();
+        if (item->getTexture() != nullptr)
+            item->getTexture()->_raw->bind();
 
         for (auto& mesh : item->getMeshes())
         {
@@ -51,8 +34,8 @@ namespace gfx2d
             glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, nullptr);
         }
 
-        if (hasTexture)
-            Texture::unbind();
+        if (item->getTexture() != nullptr)
+            item->getTexture()->_raw->bind();
     }
 
     void Renderer::updateMatrices(GraphicsItem* item) const
