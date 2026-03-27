@@ -34,7 +34,7 @@ void Game::draw(gfx2d::GraphicsItem* item) const
     shader->setMatrix4("projectionMat", _window->getCamera()->getProjectionMatrix());
 
     // -------------------- fragment shader ----------------------------
-    shader->setBool("useTexture", item->getShader() != nullptr);
+    shader->setBool("useTexture", item->getTexture() != nullptr);
     shader->setVector4("color", item->getColorVec4());
 
     gfx2d::Renderer::render(item);
