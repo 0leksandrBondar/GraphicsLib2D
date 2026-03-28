@@ -19,6 +19,10 @@ namespace gfx2d
         void setScale(const float x, const float y) { setScale(glm::vec2(x, y)); }
         void setScale(const glm::vec2& scale);
 
+        void setOriginToCenter();
+        void setOrigin(const glm::vec2& origin);
+        void setOrigin(const float x, const float y) { setOrigin(glm::vec2(x, y)); }
+
         void move(float x, float y);
 
         void setSize(float width, float height);
@@ -27,6 +31,8 @@ namespace gfx2d
 
         [[nodiscard]] glm::vec2 getGlobalCenter() const noexcept;
         [[nodiscard]] glm::vec2 getLocalCenter() const noexcept;
+
+        [[nodiscard]] glm::vec2 getOrigin() const noexcept { return _origin; }
 
         [[nodiscard]] int getWidth() const noexcept { return _size.x; }
         [[nodiscard]] int getHeight() const noexcept { return _size.y; }
@@ -40,12 +46,14 @@ namespace gfx2d
         [[nodiscard]] bool isIgnoreSize() const noexcept { return _isIgnoreSize; }
 
     protected:
-        bool _isIgnoreSize = false;
+        bool _isIgnoreSize{ false };
+        bool _originManuallySet{ false };
 
         float _rotation{};
         glm::vec2 _size{};
         glm::vec2 _scale{ 1.f };
         glm::vec2 _position{};
+        glm::vec2 _origin{ 0.f };
 
     private:
         glm::mat4 _modelMatrix{ 1.0f };

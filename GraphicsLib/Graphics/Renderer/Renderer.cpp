@@ -35,7 +35,7 @@ namespace gfx2d
         }
 
         if (item->getTexture() != nullptr)
-            item->getTexture()->_raw->bind();
+            item->getTexture()->_raw->unbind();
     }
 
     void Renderer::updateMatrices(GraphicsItem* item) const
