@@ -2,8 +2,8 @@
 
 #include "Color/Color.h"
 #include "GraphicsLib/BaseTypes/Transformable.h"
+#include "GraphicsLib/Geometry/Rect.h"
 #include "GraphicsLib/Graphics/Texture/Texture.h"
-#include "GraphicsLib/Math/Rect.h"
 #include "GraphicsLib/RawGraphics/Mesh.h"
 #include "GraphicsLib/RawGraphics/Shader.h"
 

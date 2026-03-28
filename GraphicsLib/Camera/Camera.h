@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphicsLib/Math/AABB.h"
+#include "GraphicsLib/Geometry/Rect.h"
 #include "glm/mat4x4.hpp"
 #include "glm/vec2.hpp"
 
@@ -33,7 +33,7 @@ namespace gfx2d
         // Viewport
         void setViewport(float width, float height);
 
-        math::AABB getAABB() const;
+        Rect getRect() const;
 
         // Matrix
         const glm::mat4& getViewMatrix() const;

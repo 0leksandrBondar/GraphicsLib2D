@@ -28,7 +28,7 @@ file(
         "Graphics/Animation/*.cpp"
         "Graphics/Text/*.h"
         "Graphics/Text/*.cpp"
-        "Math/*.h"
+        "Geometry/*.h"
 )
 
 add_library(
