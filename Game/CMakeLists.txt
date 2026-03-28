@@ -5,6 +5,16 @@ set(Source Main.cpp
         Game.cpp
         Player/Player.h
         Player/Player.cpp
+        Levels/Level.h
+        Levels/Level.cpp
+        Levels/LevelController.h
+        Levels/LevelController.cpp
+        Levels/Overworld/Overworld.h
+        Levels/Overworld/Overworld.cpp
+        Core/Scene.h
+        Core/Scene.cpp
+        Core/BaseGameObject.h
+        Core/BaseGameObject.cpp
         ResourceManager/ResourceManager.h
         ResourceManager/ResourceManager.cpp
 )

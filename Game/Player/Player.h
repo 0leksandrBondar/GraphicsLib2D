@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/Core/BaseGameObject.h"
 #include "GraphicsLib/Graphics/Animation/Animator.h"
 #include "GraphicsLib/Graphics/Sprite/Sprite.h"
 
@@ -21,12 +22,12 @@ enum class Direction
     Left_Down,
 };
 
-class Player
+class Player final : public BaseGameObject
 {
 public:
     Player();
 
-    void update(float deltaTime);
+    void update(float deltaTime) override;
 
     void setPosition(const float x, const float y) const { _sprite->setPosition(x, y); }
     void setPosition(const glm::vec2 pos) const { _sprite->setPosition(pos); }
@@ -41,7 +42,7 @@ public:
 
     bool isSelected() { return _isSelected; }
 
-    gfx2d::SpritePtr& graphicsItem() { return _sprite; }
+    gfx2d::GraphicsItem* getGraphicsItem() override { return _sprite.get(); };
 
 private:
     void setupAnimation() const;
