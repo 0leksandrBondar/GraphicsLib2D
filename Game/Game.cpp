@@ -42,16 +42,14 @@ void Game::draw(gfx2d::GraphicsItem* item) const
 
 void Game::render() const
 {
-    const gfx2d::math::AABB cameraBox = _window->getCamera()->getAABB();
+    const gfx2d::Rect cameraRect = _window->getCamera()->getRect();
 
     for (const auto& tile : _map)
     {
         const auto pos = tile->getPosition();
         const auto size = tile->getSize();
 
-        const gfx2d::math::AABB tileBox = gfx2d::math::fromPositionSize(pos, size);
-
-        if (!cameraBox.intersects(tileBox))
+        if (!cameraRect.intersects(gfx2d::Rect(pos.x, pos.y, size.x, size.y)))
             continue;
 
         draw(tile.get());

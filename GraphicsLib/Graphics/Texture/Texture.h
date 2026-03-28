@@ -1,5 +1,5 @@
 #pragma once
-#include "GraphicsLib/Math/Rect.h"
+#include "GraphicsLib/Geometry//Rect.h"
 #include "GraphicsLib/RawGraphics/RawTexture.h"
 
 #include <filesystem>
@@ -17,12 +17,12 @@ namespace gfx2d
     public:
         static TexturePtr create(const std::filesystem::path& path);
 
-        int getWidth() const { return _width; }
-        int getHeight() const { return _height; }
-        Rect geTextureRect() const { return _rect; }
+        [[nodiscard]] int getWidth() const { return _width; }
+        [[nodiscard]] int getHeight() const { return _height; }
+        [[nodiscard]] Rect geTextureRect() const { return _rect; }
 
         void setSmooth(const bool smooth);
-        void setTextureRect(const Rect& rect) {_rect = rect; }
+        void setTextureRect(const Rect& rect) { _rect = rect; }
 
     private:
         void loadTexture(const std::filesystem::path& path);
@@ -37,6 +37,5 @@ namespace gfx2d
 
         friend class Renderer;
         friend class Game;
-
     };
 } // namespace gfx2d
